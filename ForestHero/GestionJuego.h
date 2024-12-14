@@ -45,10 +45,16 @@ public:
 	~GestionJuego();
 
 	void IniciarElementos();
+	void RevisarColisiones();
+	void MoverTodo();
+	void DibujarTodo();
 	void IniciarJuego();
 	void AgregarEnemigo();
 	void AgregarAgua();
 	void AgregarSemilla();
+	void AgregarArbol(int, int);
+	void AgregarBasura();
+	double PorcentajeReforestacion();
 };
 
 GestionJuego::GestionJuego()
@@ -72,6 +78,51 @@ void GestionJuego::IniciarJuego()
 
 	//reproducirMusicaNivelNormal();
 	mostrarInterfazJuego();
+
+	while (true)
+	{
+
+	}
+}
+
+void GestionJuego::DibujarTodo()
+{
+	// Dibujar arboles
+	if (arboles.size() > 0) {
+		for (int i = 0; i < arboles.size(); i++) {
+			arboles[i]->Dibujar();
+		}
+	}
+
+	// Dibujar agua
+	if (aguas.size() > 0) {
+		for (int i = 0; i < aguas.size(); i++) {
+			aguas[i]->Dibujar();
+		}
+	}
+
+	// Dibujar semillas
+	if (semillas.size() > 0) {
+		for (int i = 0; i < semillas.size(); i++) {
+			semillas[i]->Dibujar();
+		}
+	}
+
+	// Dibujar basura
+	if (basuras.size() > 0) {
+		for (int i = 0; i < basuras.size(); i++) {
+			basuras[i]->Dibujar();
+		}
+	}
+
+	// Dibujar enemigos
+	if (enemigos.size() > 0)
+	{
+		for (int i = 0; i < enemigos.size(); i++)
+		{
+			enemigos[i]->Dibujar();
+		}
+	}
 }
 
 void GestionJuego::IniciarElementos()
@@ -97,15 +148,53 @@ void GestionJuego::IniciarElementos()
 
 void GestionJuego::AgregarEnemigo()
 {
+	cx = GenerarNumeroAleatorio(2, 20);
+	cy = GenerarNumeroAleatorio(3, 16);
 
+	Enemigo* e = new Enemigo(cx, cy);
+	enemigos.push_back(e);
 }
 
 void GestionJuego::AgregarAgua()
 {
+	cx = GenerarNumeroAleatorio(2, 20);
+	cy = GenerarNumeroAleatorio(3, 17);
 
+	Agua* a = new Agua(cx, cy);
+	aguas.push_back(a);
 }
 
 void GestionJuego::AgregarSemilla()
 {
+	cx = GenerarNumeroAleatorio(2, 20);
+	cy = GenerarNumeroAleatorio(3, 17);
 
+	Semilla* s = new Semilla(cx, cy);
+	semillas.push_back(s);
+}
+
+void GestionJuego::AgregarArbol(int x, int y)
+{
+	Arbol* a = new Arbol(x, y);
+	arboles.push_back(a);
+}
+
+void GestionJuego::AgregarBasura()
+{
+	int r = GenerarNumeroAleatorio(0, enemigos.size() - 1);
+
+	cx = enemigos[r]->getX();
+	cy = enemigos[r]->getY();
+
+	Basura* b = new Basura(cx, cy);
+	basuras.push_back(b);
+}
+
+double GestionJuego::PorcentajeReforestacion()
+{
+	double retornarPorcentaje;
+	double totalArboles = arboles.size();
+	retornarPorcentaje = totalArboles / 96;
+
+	return retornarPorcentaje * 100;
 }

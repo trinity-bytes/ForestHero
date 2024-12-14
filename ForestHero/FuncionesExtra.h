@@ -32,6 +32,23 @@ constexpr Color LAVANDA = { 183, 189, 248 };
 constexpr Color FLAMENCO = { 145, 215, 227 };
 constexpr Color OSCURIDAD = { 24, 25, 38 };
 
+int GenerarNumeroAleatorio(int m, int n) {
+    // Verificar que m sea menor que n
+    if (m >= n) {
+        std::cerr << "Error: m debe ser menor que n" << std::endl;
+        return m;  // Retornar m en caso de error
+    }
+
+    // Inicializar el generador de números aleatorios
+    static std::mt19937 gen(std::time(0));
+
+    // Crear una distribución uniforme en el rango [m, n]
+    std::uniform_int_distribution<> dis(m, n);
+
+    // Generar y retornar el número aleatorio
+    return dis(gen);
+}
+
 void GoTo(int x, int y) {
     COORD coord = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);

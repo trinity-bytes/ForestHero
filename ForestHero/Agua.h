@@ -8,6 +8,9 @@ public:
 	~Agua();
 };
 
-Agua::Agua(int x, int y) : Entidad(x, y) {}
+Agua::Agua(int x, int y) : Entidad(x, y) 
+{
+	this->forma = u8"▒";
+}
 
 Agua::~Agua() {}
