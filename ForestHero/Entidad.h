@@ -1,0 +1,39 @@
+#pragma once
+#include "FuncionesExtra.h"
+
+class Entidad
+{
+protected:
+	int x, y;
+public:
+	Entidad(int, int);
+	~Entidad();
+
+	int getX();
+	int getY();
+
+	virtual void Dibujar() {}
+	void Borrar();
+	System::Drawing::Rectangle getRectangle();
+};
+
+Entidad::Entidad(int x, int y)
+{
+	this->x = x;
+	this->y = y;
+}
+
+Entidad::~Entidad() {}
+
+int Entidad::getX() { return this->x; }
+int Entidad::getY() { return this->y; }
+
+void Entidad::Borrar()
+{
+	GoTo(x, y); cout << " ";
+}
+
+System::Drawing::Rectangle Entidad::getRectangle()
+{
+	return System::Drawing::Rectangle(x, y, 1, 1);
+}

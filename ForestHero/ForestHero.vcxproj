@@ -111,6 +111,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Agente.h" />
+    <ClInclude Include="Entidad.h" />
+    <ClInclude Include="FuncionesExtra.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
