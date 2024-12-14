@@ -118,7 +118,10 @@
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="Entidad.h" />
     <ClInclude Include="FuncionesExtra.h" />
+    <ClInclude Include="GestionJuego.h" />
+    <ClInclude Include="Guardian.h" />
     <ClInclude Include="Semilla.h" />
+    <ClInclude Include="UI Ascii.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />

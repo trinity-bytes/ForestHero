@@ -39,5 +39,14 @@
     <ClInclude Include="Semilla.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Guardian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GestionJuego.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI Ascii.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
