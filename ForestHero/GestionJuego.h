@@ -128,7 +128,25 @@ void GestionJuego::IniciarJuego()
 				{
 					bool puedePlantar = true;
 
+					// verificamos que no haya otro arbol plantado en esas coordenadas
+					for (int i = 0; i < arboles.size(); i++)
+					{
+						if (guardian->getX() == arboles[i]->getX() &&
+							guardian->getY() == arboles[i]->getY())
+						{
+							puedePlantar = false;
+							break;
+						}
+					}
 
+					if (puedePlantar)
+					{
+						AgregarArbol(guardian->getX(), guardian->getY());
+
+						guardian->setCantAgua(guardian->getCantAgua() - 1);
+						guardian->setCantSemillas(guardian->getCantSemillas() - 1);
+						guardian->setPuntos(guardian->getPuntos() + puntosPlantarArbol);
+					}
 				}
 			}
 			else if (tecla == 'K' || tecla == 'k') /// disparar semilla
