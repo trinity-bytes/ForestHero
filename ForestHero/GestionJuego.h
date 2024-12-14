@@ -46,6 +46,7 @@ public:
 
 	void IniciarElementos();
 	void RevisarColisiones();
+	void BorrarTodo();
 	void MoverTodo();
 	void DibujarTodo();
 	void IniciarJuego();
@@ -83,6 +84,89 @@ void GestionJuego::IniciarJuego()
 	{
 
 	}
+}
+
+void GestionJuego::RevisarColisiones()
+{
+	vector<int> indicesSemillasEliminar;
+	vector<int> indicesEnemigosEliminar;
+	vector<int> indicesAguaEliminar;
+	vector<int> indicesBasuraEliminar;
+
+
+}
+
+void GestionJuego::BorrarTodo()
+{
+	// Borrar semillas
+	if (semillas.size() > 0)
+	{
+		for (int i = 0; i < semillas.size(); i++)
+		{
+			setBkgTxtColor(1, 0);
+			semillas[i]->Borrar();
+		}
+	}
+
+	// Borrar enemigos
+	if (enemigos.size() > 0)
+	{
+		for (int i = 0; i < enemigos.size(); i++)
+		{
+			setBkgTxtColor(1, 0);
+			enemigos[i]->Borrar();
+		}
+	}
+}
+
+void GestionJuego::MoverTodo() 
+{
+	int r;
+
+	// Mover a los enemigos siempre y cuando haya enemigos
+	if (enemigos.size() > 0) 
+	{
+		for (int i = 0; i < enemigos.size(); i++)
+		{
+			r = GenerarNumeroAleatorio(1, 60);
+
+			switch (r)
+			{
+			case 1:
+				enemigos[i]->setDireccionActual(Arriba); break;
+			case 20:
+				enemigos[i]->setDireccionActual(Abajo); break;
+			case 40:
+				enemigos[i]->setDireccionActual(Izquierda); break;
+			case 60:
+				enemigos[i]->setDireccionActual(Derecha); break;
+			default:
+				break;
+			}
+		}
+	}
+
+	// Mover semillas
+	if (semillas.size() > 0)
+	{
+		for (int i = 0; i < semillas.size(); i++)
+		{
+			if (!semillas[i]->getSeMueve()) continue; /// ignoramos las semillas que no se mueven uwu
+
+			semillas[i]->Mover();
+
+			/// eliminamos las semillas que traspasan los limites del escenario
+			if (semillas[i]->getX() < 2 ||
+				semillas[i]->getX() > 20 ||
+				semillas[i]->getY() < 3 ||
+				semillas[i]->getY() > 17)
+			{
+				semillas.erase(semillas.begin() + i);
+				i--;
+			}
+		}
+	}
+	
 }
 
 void GestionJuego::DibujarTodo()
