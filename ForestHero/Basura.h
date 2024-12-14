@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Entidad.h"
 
 class Basura : public Entidad
@@ -8,6 +8,9 @@ public:
 	~Basura();
 };
 
-Basura::Basura(int x, int y) : Entidad(x, y) {}
+Basura::Basura(int x, int y) : Entidad(x, y) 
+{
+	this->forma = u8"≡";
+}
 
 Basura::~Basura() {}

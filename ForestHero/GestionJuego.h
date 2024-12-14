@@ -88,30 +88,46 @@ void GestionJuego::IniciarJuego()
 void GestionJuego::DibujarTodo()
 {
 	// Dibujar arboles
-	if (arboles.size() > 0) {
-		for (int i = 0; i < arboles.size(); i++) {
+	if (arboles.size() > 0) 
+	{
+		for (int i = 0; i < arboles.size(); i++) 
+		{
+			setBkgTxtColor(0, 6);
 			arboles[i]->Dibujar();
+			setBkgTxtColor(1, 0);
 		}
 	}
 
 	// Dibujar agua
-	if (aguas.size() > 0) {
-		for (int i = 0; i < aguas.size(); i++) {
+	if (aguas.size() > 0) 
+	{
+		for (int i = 0; i < aguas.size(); i++) 
+		{
+			setBkgTxtColor(0, 11);
 			aguas[i]->Dibujar();
+			setBkgTxtColor(1, 0);
 		}
 	}
 
 	// Dibujar semillas
-	if (semillas.size() > 0) {
-		for (int i = 0; i < semillas.size(); i++) {
+	if (semillas.size() > 0) 
+	{
+		for (int i = 0; i < semillas.size(); i++) 
+		{
+			setBkgTxtColor(0, 6);
 			semillas[i]->Dibujar();
+			setBkgTxtColor(1, 0);
 		}
 	}
 
 	// Dibujar basura
-	if (basuras.size() > 0) {
-		for (int i = 0; i < basuras.size(); i++) {
+	if (basuras.size() > 0) 
+	{
+		for (int i = 0; i < basuras.size(); i++) 
+		{
+			setBkgTxtColor(0, 5);
 			basuras[i]->Dibujar();
+			setBkgTxtColor(1, 0);
 		}
 	}
 
@@ -120,7 +136,9 @@ void GestionJuego::DibujarTodo()
 	{
 		for (int i = 0; i < enemigos.size(); i++)
 		{
+			setBkgTxtColor(0, 4);
 			enemigos[i]->Dibujar();
+			setBkgTxtColor(1, 0);
 		}
 	}
 }
@@ -149,7 +167,7 @@ void GestionJuego::IniciarElementos()
 void GestionJuego::AgregarEnemigo()
 {
 	cx = GenerarNumeroAleatorio(2, 20);
-	cy = GenerarNumeroAleatorio(3, 16);
+	cy = GenerarNumeroAleatorio(3, 17);
 
 	Enemigo* e = new Enemigo(cx, cy);
 	enemigos.push_back(e);

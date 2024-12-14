@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Agente.h"
 #include "string"
 
@@ -27,6 +27,7 @@ public:
 
 Guardian::Guardian() : Agente(10, 8)
 {
+	this->forma = u8"@";
 	this->vidas = 5;
 	this->cantAgua = 15;
 	this->cantSemillas = 20;

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Agente.h"
 
 class Semilla : public Agente
@@ -17,6 +17,7 @@ public:
 
 Semilla::Semilla(int x, int y) :Agente(x, y) 
 {
+    this->forma = u8"*";
 	this->seMueve = false;
 	this->velocidad = 0;
 	this->direccionActual = Ninguna;

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Agente.h"
 
 class Enemigo : public Agente
@@ -8,6 +8,9 @@ public:
 	~Enemigo();
 };
 
-Enemigo::Enemigo(int x, int y) : Agente(x, y) {}
+Enemigo::Enemigo(int x, int y) : Agente(x, y)
+{
+	this->forma = u8"Ø";
+}
 
 Enemigo::~Enemigo() {}
