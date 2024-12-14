@@ -13,33 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Agentes">
+      <UniqueIdentifier>{778e3fbc-402b-460a-a6ed-82fed5b2737d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Recursos">
+      <UniqueIdentifier>{1eaf03e8-1201-4816-9e11-3817b0e68e35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Padres">
+      <UniqueIdentifier>{2668420a-768c-4dfa-bb9e-fa9ca5727e6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FuncionesExtra.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entidad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Agente.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Agua.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Arbol.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Basura.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemigo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Semilla.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Guardian.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GestionJuego.h">
@@ -47,6 +32,30 @@
     </ClInclude>
     <ClInclude Include="UI Ascii.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemigo.h">
+      <Filter>Header Files\Agentes</Filter>
+    </ClInclude>
+    <ClInclude Include="Guardian.h">
+      <Filter>Header Files\Agentes</Filter>
+    </ClInclude>
+    <ClInclude Include="Semilla.h">
+      <Filter>Header Files\Agentes</Filter>
+    </ClInclude>
+    <ClInclude Include="Agua.h">
+      <Filter>Header Files\Recursos</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbol.h">
+      <Filter>Header Files\Recursos</Filter>
+    </ClInclude>
+    <ClInclude Include="Basura.h">
+      <Filter>Header Files\Recursos</Filter>
+    </ClInclude>
+    <ClInclude Include="Agente.h">
+      <Filter>Header Files\Padres</Filter>
+    </ClInclude>
+    <ClInclude Include="Entidad.h">
+      <Filter>Header Files\Padres</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

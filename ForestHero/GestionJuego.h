@@ -53,6 +53,7 @@ public:
 	void AgregarEnemigo();
 	void AgregarAgua();
 	void AgregarSemilla();
+	void DispararSemillas(int, int);
 	void AgregarArbol(int, int);
 	void AgregarBasura();
 	double PorcentajeReforestacion();
@@ -84,6 +85,7 @@ void GestionJuego::IniciarJuego()
 
 	while (true)
 	{
+		RevisarColisiones();
 		BorrarTodo();
 		MoverTodo();
 		DibujarTodo();
@@ -98,6 +100,7 @@ void GestionJuego::IniciarJuego()
 			if (tecla == 'W' || tecla == 'w')
 			{
 				guardian->setDireccionActual(Arriba);
+				guardian->Mover();
 
 				// verificar que el personaje se mueva para quitar la colision con la basura
 				if (colisionConBasura) colisionConBasura = false;
@@ -105,18 +108,21 @@ void GestionJuego::IniciarJuego()
 			else if (tecla == 'S' || tecla == 's')
 			{
 				guardian->setDireccionActual(Abajo);
+				guardian->Mover();
 
 				if (colisionConBasura) colisionConBasura = false;
 			}
 			else if (tecla == 'A' || tecla == 'a')
 			{
 				guardian->setDireccionActual(Izquierda);
+				guardian->Mover();
 
 				if (colisionConBasura) colisionConBasura = false;
 			}
 			else if (tecla == 'D' || tecla == 'd')
 			{
 				guardian->setDireccionActual(Derecha);
+				guardian->Mover();
 
 				if (colisionConBasura) colisionConBasura = false;
 			}
@@ -151,19 +157,17 @@ void GestionJuego::IniciarJuego()
 			}
 			else if (tecla == 'K' || tecla == 'k') /// disparar semilla
 			{
-
+				DispararSemillas(guardian->getX(), guardian->getY());
 			}
 			else if (tecla == 27)
 			{
 				// finalizar el juego si presiona ESC
 				break;
 			}
-
-			guardian->Mover();
 		}
 		guardian->Dibujar();
 
-		Esperar(60);
+		Esperar(50);
 	}
 }
 
@@ -174,7 +178,27 @@ void GestionJuego::RevisarColisiones()
 	vector<int> indicesAguaEliminar;
 	vector<int> indicesBasuraEliminar;
 
+	//Colisiones semilas
+	if (semillas.size() > 0)
+	{
+		for (int i = 0; i < semillas.size(); i++)
+		{
+			if (!semillas[i]->getSeMueve()) continue;
 
+			/// Semilla - Enemigos
+
+		}
+	}
+
+	/// eliminamos las semillas que traspasan los limites del escenario
+	if (semillas[1]->getX() < 2 ||
+		semillas[1]->getX() > 20 ||
+		semillas[1]->getY() < 3 ||
+		semillas[1]->getY() > 17)
+	{
+		//semillas.erase(semillas.begin() + i);
+		//i--;
+	}
 }
 
 void GestionJuego::BorrarTodo()
@@ -239,16 +263,6 @@ void GestionJuego::MoverTodo()
 			if (!semillas[i]->getSeMueve()) continue; /// ignoramos las semillas que no se mueven uwu
 
 			semillas[i]->Mover();
-
-			/// eliminamos las semillas que traspasan los limites del escenario
-			if (semillas[i]->getX() < 2 ||
-				semillas[i]->getX() > 20 ||
-				semillas[i]->getY() < 3 ||
-				semillas[i]->getY() > 17)
-			{
-				semillas.erase(semillas.begin() + i);
-				i--;
-			}
 		}
 	}
 	
@@ -358,6 +372,19 @@ void GestionJuego::AgregarSemilla()
 
 	Semilla* s = new Semilla(cx, cy);
 	semillas.push_back(s);
+}
+
+void GestionJuego::DispararSemillas(int x, int y)
+{
+	Semilla* s1 = new Semilla(x, y - 1, Arriba);
+	Semilla* s2 = new Semilla(x, y + 1, Abajo);
+	Semilla* s3 = new Semilla(x - 1, y, Izquierda);
+	Semilla* s4 = new Semilla(x + 1, y, Derecha);
+
+	semillas.push_back(s1);
+	semillas.push_back(s2);
+	semillas.push_back(s3);
+	semillas.push_back(s4);
 }
 
 void GestionJuego::AgregarArbol(int x, int y)

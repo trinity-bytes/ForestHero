@@ -15,7 +15,7 @@ public:
     Direccion getDireccionActual();
     void setDireccionActual(Direccion);
 
-	virtual void Mover();
+	void Mover();
 };
 
 Agente::Agente(int x, int y) : Entidad(x, y)

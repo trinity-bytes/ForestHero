@@ -12,7 +12,7 @@ public:
 
 	bool getSeMueve();
 
-	void Mover() override;
+	//void Mover() override;
 };
 
 Semilla::Semilla(int x, int y) :Agente(x, y) 
@@ -25,7 +25,7 @@ Semilla::Semilla(int x, int y) :Agente(x, y)
 
 Semilla::Semilla(int x, int y, Direccion d) :Agente(x, y)
 {
-	this->seMueve = false;
+	this->seMueve = true;
 	this->velocidad = 1;
 	this->direccionActual = d;
 }
@@ -34,6 +34,7 @@ Semilla::~Semilla() {}
 
 bool Semilla::getSeMueve() { return seMueve; }
 
+/*
 void Semilla::Mover()
 {
     switch (direccionActual)
@@ -69,3 +70,5 @@ void Semilla::Mover()
         break;
     }
 }
+
+*/
