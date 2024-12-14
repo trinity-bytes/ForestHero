@@ -1,5 +1,11 @@
 ﻿#pragma once
 #include "FuncionesExtra.h"
+#include "Guardian.h";
+#include "Enemigo.h";
+#include "Basura.h";
+#include "Semilla.h";
+#include "Agua.h";
+#include "Arbol.h";
 
 string barraVidas[6] = {
 	"-----",
@@ -48,7 +54,7 @@ void DibujarBarraVidas(int v) {
 	}
 }
 
-void mostrarInterfazJuego()
+void MostrarUIJuego()
 {
     Semilla* semilla = new Semilla(23, 1);
     Agua* agua = new Agua(16, 1);

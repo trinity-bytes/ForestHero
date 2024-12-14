@@ -126,6 +126,9 @@
   <ItemGroup>
     <Reference Include="System.Drawing" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ForestHero.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

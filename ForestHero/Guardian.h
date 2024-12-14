@@ -7,7 +7,7 @@ private:
 	int vidas, cantAgua, cantSemillas, puntos;
 	string nombre;
 public:
-	Guardian();
+	Guardian(int, int);
 	~Guardian();
 
 	int getCantSemillas();
@@ -25,7 +25,7 @@ public:
 	void ReiniciarEstado();
 };
 
-Guardian::Guardian() : Agente(10, 8)
+Guardian::Guardian(int x, int y) : Agente(x, y)
 {
 	this->forma = u8"@";
 	this->vidas = 5;

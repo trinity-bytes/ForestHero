@@ -66,6 +66,8 @@ GestionJuego::GestionJuego()
 	basuras = vector<Basura*>();
 	enemigos = vector<Enemigo*>();
 
+	guardian = new Guardian(10, 8);
+
 	IniciarElementos();
 }
 
@@ -78,11 +80,72 @@ void GestionJuego::IniciarJuego()
 	Console::SetWindowSize(47, 19);
 
 	//reproducirMusicaNivelNormal();
-	mostrarInterfazJuego();
+	MostrarUIJuego();
 
 	while (true)
 	{
+		BorrarTodo();
+		MoverTodo();
+		DibujarTodo();
 
+		if (kbhit())
+		{
+			char tecla = getch();
+
+			guardian->Borrar();
+
+			// Verificamos el movimiento
+			if (tecla == 'W' || tecla == 'w')
+			{
+				guardian->setDireccionActual(Arriba);
+
+				// verificar que el personaje se mueva para quitar la colision con la basura
+				if (colisionConBasura) colisionConBasura = false;
+			}
+			else if (tecla == 'S' || tecla == 's')
+			{
+				guardian->setDireccionActual(Abajo);
+
+				if (colisionConBasura) colisionConBasura = false;
+			}
+			else if (tecla == 'A' || tecla == 'a')
+			{
+				guardian->setDireccionActual(Izquierda);
+
+				if (colisionConBasura) colisionConBasura = false;
+			}
+			else if (tecla == 'D' || tecla == 'd')
+			{
+				guardian->setDireccionActual(Derecha);
+
+				if (colisionConBasura) colisionConBasura = false;
+			}
+			else if (tecla == 'M' || tecla == 'm') /// plantar arbol
+			{
+				// verificamos que haya suficiente agua y semilla para plantar
+				if (guardian->getCantAgua() > 0 &&
+					guardian->getCantSemillas() > 0)
+				{
+					bool puedePlantar = true;
+
+
+				}
+			}
+			else if (tecla == 'K' || tecla == 'k') /// disparar semilla
+			{
+
+			}
+			else if (tecla == 27)
+			{
+				// finalizar el juego si presiona ESC
+				break;
+			}
+
+			guardian->Mover();
+		}
+		guardian->Dibujar();
+
+		Esperar(60);
 	}
 }
 
@@ -103,6 +166,7 @@ void GestionJuego::BorrarTodo()
 	{
 		for (int i = 0; i < semillas.size(); i++)
 		{
+			if (!semillas[i]->getSeMueve()) continue; /// ignorar las semillas estaticas
 			setBkgTxtColor(1, 0);
 			semillas[i]->Borrar();
 		}
@@ -141,8 +205,11 @@ void GestionJuego::MoverTodo()
 			case 60:
 				enemigos[i]->setDireccionActual(Derecha); break;
 			default:
+				enemigos[i]->setDireccionActual(Ninguna); break;
 				break;
 			}
+
+			enemigos[i]->Mover();
 		}
 	}
 
@@ -198,7 +265,7 @@ void GestionJuego::DibujarTodo()
 	{
 		for (int i = 0; i < semillas.size(); i++) 
 		{
-			setBkgTxtColor(0, 6);
+			setBkgTxtColor(6, 0);
 			semillas[i]->Dibujar();
 			setBkgTxtColor(1, 0);
 		}

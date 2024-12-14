@@ -32,7 +32,8 @@ constexpr Color LAVANDA = { 183, 189, 248 };
 constexpr Color FLAMENCO = { 145, 215, 227 };
 constexpr Color OSCURIDAD = { 24, 25, 38 };
 
-int GenerarNumeroAleatorio(int m, int n) {
+int GenerarNumeroAleatorio(int m, int n) 
+{
     // Verificar que m sea menor que n
     if (m >= n) {
         std::cerr << "Error: m debe ser menor que n" << std::endl;
@@ -49,12 +50,29 @@ int GenerarNumeroAleatorio(int m, int n) {
     return dis(gen);
 }
 
-void GoTo(int x, int y) {
+void GoTo(int x, int y) 
+{
     COORD coord = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-void setFont(const wchar_t* fontName, SHORT sizeX, SHORT sizeY) {
+void Esperar(int ms)
+{
+    Sleep(ms); // milisegundos
+}
+
+void HideCursor() 
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+
+    GetConsoleCursorInfo(hConsole, &cursorInfo);
+    cursorInfo.bVisible = FALSE;
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+}
+
+void setFont(const wchar_t* fontName, SHORT sizeX, SHORT sizeY) 
+{
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_FONT_INFOEX cfi;
     cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
@@ -67,7 +85,8 @@ void setFont(const wchar_t* fontName, SHORT sizeX, SHORT sizeY) {
     SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
 }
 
-void setColorPalette(int index, Color color) {
+void setColorPalette(int index, Color color) 
+{
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
     CONSOLE_SCREEN_BUFFER_INFOEX csbiex;
@@ -80,24 +99,17 @@ void setColorPalette(int index, Color color) {
     SetConsoleScreenBufferInfoEx(hConsole, &csbiex);
 }
 
-void hideCursor() {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO cursorInfo;
-
-    GetConsoleCursorInfo(hConsole, &cursorInfo);
-    cursorInfo.bVisible = FALSE;
-    SetConsoleCursorInfo(hConsole, &cursorInfo);
-}
-
-void setBkgTxtColor(int colorTexto, int colorFondo) {
+void setBkgTxtColor(int colorTexto, int colorFondo) 
+{
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colorTexto | (colorFondo << 4));
 }
 
-void configurarConsola() {
+void ConfigurarConsola() 
+{
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 
-    hideCursor();
+    HideCursor();
 
     setFont(L"Cascadia Mono", 10, 20);
 
