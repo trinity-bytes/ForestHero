@@ -24,5 +24,20 @@
     <ClInclude Include="Agente.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Agua.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Basura.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemigo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Semilla.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

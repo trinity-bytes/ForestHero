@@ -112,8 +112,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Agente.h" />
+    <ClInclude Include="Agua.h" />
+    <ClInclude Include="Arbol.h" />
+    <ClInclude Include="Basura.h" />
+    <ClInclude Include="Enemigo.h" />
     <ClInclude Include="Entidad.h" />
     <ClInclude Include="FuncionesExtra.h" />
+    <ClInclude Include="Semilla.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />
