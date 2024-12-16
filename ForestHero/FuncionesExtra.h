@@ -36,7 +36,7 @@ int GenerarNumeroAleatorio(int m, int n)
 {
     // Verificar que m sea menor que n
     if (m >= n) {
-        std::cerr << "Error: m debe ser menor que n" << std::endl;
+        //std::cerr << "Error: m debe ser menor que n" << std::endl;
         return m;  // Retornar m en caso de error
     }
 

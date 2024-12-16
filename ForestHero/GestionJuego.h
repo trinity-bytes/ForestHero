@@ -23,16 +23,26 @@ private:
 	clock_t t, tsAgua, tsSemilla, tsEnemigos, tsBasura;
 	int segundosAgua = 0, segundosSemilla = 0, segundosEnemigos = 0, segundosBasura = 0;
 
-	const int puntosRecogerSemilla = 2;
-	const int puntosRecogerAgua = 3;
+	const int tiempoAgua = 3;
+	const int tiempoSemilla = 2;
+	const int tiempoEnemigos = 30;
+
+	int tiempoBasura = 7; // Su valor cambia en la parte final del nivel
+
+	const int puntosRecogerSemilla = 1;
+	const int puntosRecogerAgua = 2;
 	const int puntosPlantarArbol = 10;
-	const int puntosDestruirBasura = 8;
+	const int puntosDestruirBasura = 5;
+	const int puntosEliminarEnemigo = 3;
 
 	const int cantInicialEnemigos = 5;
 	const int cantInicialAgua = 10;
 	const int cantInicialSemillas = 15;
 
-	int tiempoBasura = 7;
+	const int limiteAgua = 25;
+	const int limiteSemillas = 30;
+	const int limiteEnemigos = 30;
+
 	bool colisionConBasura = false;
 	bool continuar = true;
 	bool victoria = false;
@@ -57,6 +67,9 @@ public:
 	void AgregarArbol(int, int);
 	void AgregarBasura();
 	double PorcentajeReforestacion();
+	bool AnalizarGameOver();
+	bool DeterminarVictoria();
+	void ReiniciarEstado();
 };
 
 GestionJuego::GestionJuego()
@@ -89,6 +102,47 @@ void GestionJuego::IniciarJuego()
 		BorrarTodo();
 		MoverTodo();
 		DibujarTodo();
+
+		if ((t = clock()) >= tsAgua) // Agregar agua cada X tiempo
+		{
+			segundosAgua += tiempoAgua;
+			tsAgua = t + CLOCKS_PER_SEC * tiempoAgua;
+
+			if (aguas.size() <= limiteAgua)
+			{
+				AgregarAgua();
+			}
+		}
+
+		if ((t = clock()) >= tsSemilla) // Agregar una semilla cada X tiempo
+		{
+			segundosSemilla += tiempoSemilla;
+			tsSemilla = t + CLOCKS_PER_SEC * tiempoSemilla;
+
+			if (semillas.size() <= limiteSemillas)
+			{
+				AgregarSemilla();
+			}
+		}
+
+		if ((t = clock()) >= tsEnemigos) // Agregar un enemigo cada X tiempo
+		{
+			segundosEnemigos += tiempoEnemigos;
+			tsEnemigos = t + CLOCKS_PER_SEC * tiempoEnemigos;
+
+			if (enemigos.size() < limiteEnemigos)
+			{
+				AgregarEnemigo();
+			}
+		}
+
+		if ((t = clock()) >= tsBasura)
+		{
+			segundosBasura += tiempoBasura;
+			tsBasura = t + CLOCKS_PER_SEC * tiempoBasura;
+
+			AgregarBasura();
+		}
 
 		if (kbhit())
 		{
@@ -157,17 +211,60 @@ void GestionJuego::IniciarJuego()
 			}
 			else if (tecla == 'K' || tecla == 'k') /// disparar semilla
 			{
-				DispararSemillas(guardian->getX(), guardian->getY());
+				if (guardian->getCantSemillas() >= 4)
+				{
+					DispararSemillas(guardian->getX(), guardian->getY());
+
+					guardian->setCantSemillas(guardian->getCantSemillas() - 4);
+				}
 			}
 			else if (tecla == 27)
 			{
-				// finalizar el juego si presiona ESC
-				break;
+				break; // finalizar el juego si presiona ESC
 			}
 		}
 		guardian->Dibujar();
 
+	/// Dibujar ESTADISTICAS - NUMEROS
+		// ---- Borrar estadisticas anteriores
+		GoTo(9, 1);   cout << "   ";
+		GoTo(18, 1);  cout << "   ";
+		GoTo(25, 1);  cout << "   ";		
+		GoTo(39, 7);  cout << "     ";
+		// ---- Escribir estadisticas actualizadas
+		GoTo(32, 5);  cout << guardian->getPuntos();
+		GoTo(9, 1);   DibujarBarraVidas(guardian->getVidas());
+		GoTo(18, 1);  cout << guardian->getCantAgua();
+		GoTo(25, 1);  cout << guardian->getCantSemillas();
+
+		setBkgTxtColor(0, 2);
+		GoTo(39, 7);  cout << PorcentajeReforestacion() << "%";
+		setBkgTxtColor(1, 0);
+
+		if (AnalizarGameOver()) break;
+
+		if (PorcentajeReforestacion() >= 50 && musicaFinal == false)
+		{
+			//reproducirMusicaNivelFinalBoss();
+			tiempoBasura = 4;
+			musicaFinal = true;
+		}
+
 		Esperar(50);
+	}
+
+	// regresar la ventana a su configuracion inicial para evitar errores
+	// no cambiar el orden de las instrucciones
+	setFont(L"Cascadia Mono", 10, 20);
+	Console::SetWindowSize(104, 24);
+
+	if (DeterminarVictoria())
+	{
+		// win
+	}
+	else
+	{
+		// lose
 	}
 }
 
@@ -178,6 +275,64 @@ void GestionJuego::RevisarColisiones()
 	vector<int> indicesAguaEliminar;
 	vector<int> indicesBasuraEliminar;
 
+	//Colisiones guardian
+	if (true) // Comprobando que el guardian no sea inmune
+	{
+		/// Guardian - Semilla
+		for (int i = 0; i < semillas.size(); i++)
+		{
+			if (semillas[i]->getSeMueve()) continue; // Igoramos a las semillas que se mueven
+
+			if (guardian->getRectangle().IntersectsWith(semillas[i]->getRectangle()))
+			{
+				indicesSemillasEliminar.push_back(i);
+
+				guardian->setCantSemillas(guardian->getCantSemillas() + 1); // Incrementa la cntidad de semillas del guardian
+				guardian->setPuntos(guardian->getPuntos() + puntosRecogerSemilla); // Incrementa los puntos
+			}
+		}
+
+		/// Guardian - Agua
+		for (int i = 0; i < aguas.size(); i++)
+		{
+			if (guardian->getRectangle().IntersectsWith(aguas[i]->getRectangle()))
+			{
+				indicesAguaEliminar.push_back(i);
+
+				guardian->setCantAgua(guardian->getCantAgua() + 1); // Incrementa l cantidad de agua del guardian
+				guardian->setPuntos(guardian->getPuntos() + puntosRecogerAgua); // Incrementa los puntos
+			}
+		}
+
+		/// Guardian - Basura
+		for (int i = 0; i < basuras.size(); i++)
+		{
+			if (guardian->getRectangle().IntersectsWith(basuras[i]->getRectangle()) && !colisionConBasura)
+			{
+				// El guardian pierde una vida
+				if (guardian->getVidas() > 0) guardian->setVidas(guardian->getVidas() - 1);
+
+				colisionConBasura = true;
+				Esperar(800);
+			}
+		}
+
+		/// Guardian - Enemigo
+		for (int i = 0; i < enemigos.size(); i++)
+		{
+			if (guardian->getRectangle().IntersectsWith(enemigos[i]->getRectangle()))
+			{
+				indicesEnemigosEliminar.push_back(i);
+
+				// El guardian pierde una vida
+				if (guardian->getVidas() > 0) guardian->setVidas(guardian->getVidas() - 1);
+
+				guardian->Borrar();
+				Esperar(800);
+			}
+		}
+	}
+
 	//Colisiones semilas
 	if (semillas.size() > 0)
 	{
@@ -186,18 +341,101 @@ void GestionJuego::RevisarColisiones()
 			if (!semillas[i]->getSeMueve()) continue;
 
 			/// Semilla - Enemigos
+			for (int j = 0; j < enemigos.size(); j++)
+			{
+				if (semillas[i]->getRectangle().IntersectsWith(enemigos[j]->getRectangle()))
+				{
+					// Guardamos el indice de las semillas que seran eliminadas
+					if (std::find(indicesSemillasEliminar.begin(), indicesSemillasEliminar.end(), i) == indicesSemillasEliminar.end())
+						indicesSemillasEliminar.push_back(i);
 
+					// Guardamos el indice de los enemigos que seran eliminados
+					if (std::find(indicesEnemigosEliminar.begin(), indicesEnemigosEliminar.end(), j) == indicesEnemigosEliminar.end())
+						indicesEnemigosEliminar.push_back(j);
+
+					guardian->setPuntos(guardian->getPuntos() + puntosEliminarEnemigo);
+					break;
+				}
+			}
+
+			/// Semilla - Basura
+			for (int j = 0; j < basuras.size(); j++)
+			{
+				if (semillas[i]->getRectangle().IntersectsWith(basuras[j]->getRectangle()))
+				{
+					// Guardamos el indice de las semillas que seran eliminadas
+					if (std::find(indicesSemillasEliminar.begin(), indicesSemillasEliminar.end(), i) == indicesSemillasEliminar.end())
+						indicesSemillasEliminar.push_back(i);
+
+					// Guardamos el indice de las basuras que seran eliminadas
+					if (std::find(indicesBasuraEliminar.begin(), indicesBasuraEliminar.end(), j) == indicesBasuraEliminar.end())
+						indicesBasuraEliminar.push_back(j);
+
+					guardian->setPuntos(guardian->getPuntos() + puntosDestruirBasura);
+					break;
+				}
+			}
+
+			/// eliminamos las semillas que traspasan los limites del escenario
+			if (semillas[i]->getDireccionActual() == Arriba &&
+				semillas[i]->getY() - 1 == 2)
+			{
+				// Guardamos el indice de las semillas que seran eliminadas
+				if (std::find(indicesSemillasEliminar.begin(), 
+					indicesSemillasEliminar.end(), i) == indicesSemillasEliminar.end())
+					indicesSemillasEliminar.push_back(i);
+
+				semillas[i]->Borrar();
+			}
+			else if (semillas[i]->getDireccionActual() == Abajo &&
+				semillas[i]->getY() + 1 == 18)
+			{
+				// Guardamos el indice de las semillas que seran eliminadas
+				if (std::find(indicesSemillasEliminar.begin(), 
+					indicesSemillasEliminar.end(), i) == indicesSemillasEliminar.end())
+					indicesSemillasEliminar.push_back(i);
+
+				semillas[i]->Borrar();
+			}
+			else if (semillas[i]->getDireccionActual() == Izquierda &&
+				semillas[i]->getX() - 1 == 0)
+			{
+				// Guardamos el indice de las semillas que seran eliminadas
+				if (std::find(indicesSemillasEliminar.begin(), 
+					indicesSemillasEliminar.end(), i) == indicesSemillasEliminar.end())
+					indicesSemillasEliminar.push_back(i);
+
+				semillas[i]->Borrar();
+			}
+			else if (semillas[i]->getDireccionActual() == Derecha &&
+				semillas[i]->getX() + 1 == 21)
+			{
+				// Guardamos el indice de las semillas que seran eliminadas
+				if (std::find(indicesSemillasEliminar.begin(), 
+					indicesSemillasEliminar.end(), i) == indicesSemillasEliminar.end())
+					indicesSemillasEliminar.push_back(i);
+
+				semillas[i]->Borrar();
+			}
 		}
 	}
 
-	/// eliminamos las semillas que traspasan los limites del escenario
-	if (semillas[1]->getX() < 2 ||
-		semillas[1]->getX() > 20 ||
-		semillas[1]->getY() < 3 ||
-		semillas[1]->getY() > 17)
+	/// Eliminamos los elementos con los indices almacenados
+	for (auto i = indicesSemillasEliminar.rbegin(); i != indicesSemillasEliminar.rend(); ++i)
 	{
-		//semillas.erase(semillas.begin() + i);
-		//i--;
+		semillas.erase(semillas.begin() + *i);
+	}
+	for (auto i = indicesEnemigosEliminar.rbegin(); i != indicesEnemigosEliminar.rend(); ++i)
+	{
+		enemigos.erase(enemigos.begin() + *i);
+	}
+	for (int i = indicesBasuraEliminar.size() - 1; i >= 0; i--)
+	{
+		basuras.erase(basuras.begin() + indicesBasuraEliminar[i]);
+	}
+	for (int i = indicesAguaEliminar.size() - 1; i >= 0; i--)
+	{
+		aguas.erase(aguas.begin() + indicesAguaEliminar[i]);
 	}
 }
 
@@ -275,7 +513,7 @@ void GestionJuego::DibujarTodo()
 	{
 		for (int i = 0; i < arboles.size(); i++) 
 		{
-			setBkgTxtColor(0, 6);
+			setBkgTxtColor(0, 2);
 			arboles[i]->Dibujar();
 			setBkgTxtColor(1, 0);
 		}
@@ -286,7 +524,7 @@ void GestionJuego::DibujarTodo()
 	{
 		for (int i = 0; i < aguas.size(); i++) 
 		{
-			setBkgTxtColor(0, 11);
+			setBkgTxtColor(11, 0);
 			aguas[i]->Dibujar();
 			setBkgTxtColor(1, 0);
 		}
@@ -376,10 +614,20 @@ void GestionJuego::AgregarSemilla()
 
 void GestionJuego::DispararSemillas(int x, int y)
 {
-	Semilla* s1 = new Semilla(x, y - 1, Arriba);
-	Semilla* s2 = new Semilla(x, y + 1, Abajo);
-	Semilla* s3 = new Semilla(x - 1, y, Izquierda);
-	Semilla* s4 = new Semilla(x + 1, y, Derecha);
+	Semilla* s1 = new Semilla(x, y);
+	Semilla* s2 = new Semilla(x, y);
+	Semilla* s3 = new Semilla(x, y);
+	Semilla* s4 = new Semilla(x, y);
+
+	s1->setSeMueve(true);
+	s2->setSeMueve(true);
+	s3->setSeMueve(true);
+	s4->setSeMueve(true);
+
+	s1->setDireccionActual(Arriba);
+	s2->setDireccionActual(Abajo);
+	s3->setDireccionActual(Izquierda);
+	s4->setDireccionActual(Derecha);
 
 	semillas.push_back(s1);
 	semillas.push_back(s2);
@@ -406,9 +654,44 @@ void GestionJuego::AgregarBasura()
 
 double GestionJuego::PorcentajeReforestacion()
 {
-	double retornarPorcentaje;
-	double totalArboles = arboles.size();
-	retornarPorcentaje = totalArboles / 96;
+	double porcentaje = (arboles.size() / 300.0) * 100;
+	porcentaje = round(porcentaje * 10.0) / 10.0;
 
-	return retornarPorcentaje * 100;
+	return porcentaje;
+}
+
+bool GestionJuego::AnalizarGameOver()
+{
+	if (guardian->getVidas() <= 0 || PorcentajeReforestacion() >= 70)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool GestionJuego::DeterminarVictoria()
+{
+	if (PorcentajeReforestacion() >= 70 && guardian->getVidas() > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void GestionJuego::ReiniciarEstado()
+{
+	/// limpiamos todos los vectores de elementos
+	aguas.clear();
+	semillas.clear();
+	arboles.clear();
+	basuras.clear();
+	enemigos.clear();
+
+	IniciarElementos();
 }

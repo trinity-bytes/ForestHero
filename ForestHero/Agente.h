@@ -15,14 +15,14 @@ public:
     Direccion getDireccionActual();
     void setDireccionActual(Direccion);
 
-	void Mover();
+	virtual void Mover();
 };
 
 Agente::Agente(int x, int y) : Entidad(x, y)
 {
 	this->dx = this->dy = 0;
 	this->velocidad = 1;
-	direccionActual = Ninguna;
+	this->direccionActual = Ninguna;
 }
 
 Agente::~Agente() {}

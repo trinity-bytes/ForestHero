@@ -8,12 +8,12 @@
 #include "Arbol.h";
 
 string barraVidas[6] = {
-	"-----",
-	"#----",
-	"##---",
-	"###--",
-	"####-",
-	"#####"
+	u8"-----",
+	u8"▓----",
+	u8"▓▓---",
+	u8"▓▓▓--",
+	u8"▓▓▓▓-",
+	u8"▓▓▓▓▓"
 };
 
 void DibujarBarraVidas(int v) {
@@ -58,47 +58,53 @@ void MostrarUIJuego()
 {
     Semilla* semilla = new Semilla(23, 1);
     Agua* agua = new Agua(16, 1);
-    Arbol* arbol = new Arbol(30, 1);
-    Semilla* semilla2 = new Semilla(26, 6);
-    Agua* agua2 = new Agua(26, 7);
-    Arbol* arbol2 = new Arbol(26, 8);
-    Enemigo* enemigo = new Enemigo(26, 9);
-    Basura* basura = new Basura(26, 10);
+    Semilla* semilla2 = new Semilla(34, 10);
+    Agua* agua2 = new Agua(24, 10);
+    Arbol* arbol2 = new Arbol(24, 11);
+    Enemigo* enemigo = new Enemigo(34, 11);
+    Basura* basura = new Basura(24, 12);
 
     string interfaz = u8R"(╔═════════════════════════════════════════════╗
-║  Salud:-----  #:---  #:---  #:--%           ║
+║  Vidas:-----  #:---  #:---      ESC: Salir  ║
 ╠════════════════════╦════════════════════════╣
 ║                    ║  >>>  ForestHero  <<<  ║
+║                    ║                        ║
 ║                    ║  Puntos:               ║
 ║                    ║                        ║
-║                    ║    # > Agua            ║
-║                    ║    # > Semilla         ║
-║                    ║    # > Arbol           ║
-║                    ║    # > Enemigo         ║
-║                    ║    # > Basura          ║
+║                    ║  Reforestacion: --.-%  ║
 ║                    ║                        ║
-║                    ║  W: Arriba             ║
-║                    ║  S: Abajo              ║
-║                    ║  A: Izquierda          ║
-║                    ║  D: Derecha            ║
-║                    ║  V: Plantar arbol      ║
-║                    ║  I,J,K,L: Disparar     ║
+║                    ╠════════════════════════╣
+║                    ║  #: Agua   #: Semilla  ║
+║                    ║  #: Arbol  #: Enemigo  ║
+║                    ║  #: Basura             ║
+║                    ╠════════════════════════╣
+║                    ║  W,A,S,D: Movimiento   ║
+║                    ║  M: Plantar arbol      ║
+║                    ║  K: Disparar semillas  ║
+║                    ║  P: Pausar el juego    ║
 ╚════════════════════╩════════════════════════╝)";
 
     cout << interfaz;
 
+	setBkgTxtColor(6, 0);
     semilla->Dibujar();
+	semilla2->Dibujar();
+
+	setBkgTxtColor(11, 0);
     agua->Dibujar();
-    arbol->Dibujar();
-    semilla2->Dibujar();
-    agua2->Dibujar();
-    arbol2->Dibujar();
+	agua2->Dibujar();
+
+	setBkgTxtColor(0, 2);
+	arbol2->Dibujar();
+    
+	setBkgTxtColor(0, 4);
     enemigo->Dibujar();
+
+	setBkgTxtColor(0, 5);
     basura->Dibujar();
 
     delete semilla;
     delete agua;
-    delete arbol;
     delete semilla2;
     delete agua2;
     delete arbol2;

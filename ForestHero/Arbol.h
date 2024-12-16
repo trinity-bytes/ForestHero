@@ -10,7 +10,7 @@ public:
 
 Arbol::Arbol(int x, int y) : Entidad(x, y)
 {
-	this->forma = u8"▓";
+	this->forma = u8"#";
 }
 
 Arbol::~Arbol() {}
