@@ -22,15 +22,15 @@
     <Filter Include="Header Files\Padres">
       <UniqueIdentifier>{2668420a-768c-4dfa-bb9e-fa9ca5727e6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Ascii">
+      <UniqueIdentifier>{c6eb6aa2-14ea-4d1e-b1dc-fd88991e44e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Otros">
+      <UniqueIdentifier>{82c58406-dfd4-4b37-8674-d654f4fec25b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FuncionesExtra.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GestionJuego.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UI Ascii.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Enemigo.h">
@@ -56,6 +56,15 @@
     </ClInclude>
     <ClInclude Include="Entidad.h">
       <Filter>Header Files\Padres</Filter>
+    </ClInclude>
+    <ClInclude Include="UI Ascii.h">
+      <Filter>Header Files\Ascii</Filter>
+    </ClInclude>
+    <ClInclude Include="FuncionesExtra.h">
+      <Filter>Header Files\Otros</Filter>
+    </ClInclude>
+    <ClInclude Include="Musica.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

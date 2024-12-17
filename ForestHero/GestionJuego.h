@@ -1,5 +1,6 @@
 #pragma once
 #include "UI Ascii.h"
+#include "Musica.h"
 #include "Guardian.h"
 #include "Enemigo.h"
 #include "Agua.h";
@@ -93,7 +94,7 @@ void GestionJuego::IniciarJuego()
 	setFont(L"Cascadia Mono Semibold", 28, 38);
 	Console::SetWindowSize(47, 19);
 
-	//reproducirMusicaNivelNormal();
+	RepNivelNormal();
 	MostrarUIJuego();
 
 	while (true)
