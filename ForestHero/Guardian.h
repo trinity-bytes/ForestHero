@@ -21,6 +21,7 @@ public:
 	void setCantAgua(int);
 	void setPuntos(int);
 	void setVidas(int);
+	void setNombre(string);
 
 	void ReiniciarEstado();
 };
@@ -47,6 +48,7 @@ void Guardian::setCantSemillas(int i) { this->cantAgua = i; }
 void Guardian::setCantAgua(int i) { this->cantSemillas = i; }
 void Guardian::setPuntos(int i) { this->puntos = i; }
 void Guardian::setVidas(int i) { this->vidas = i; }
+void Guardian::setNombre(string n) { this->nombre = n; }
 
 void Guardian::ReiniciarEstado()
 {

@@ -29,6 +29,7 @@ private:
 	const int tiempoEnemigos = 30;
 
 	int tiempoBasura = 7; // Su valor cambia en la parte final del nivel
+	int opcReiniciarJuego = 0;
 
 	const int puntosRecogerSemilla = 1;
 	const int puntosRecogerAgua = 2;
@@ -48,6 +49,8 @@ private:
 	bool continuar = true;
 	bool victoria = false;
 	bool musicaFinal = false;
+
+	string nick;
 
 	// para las coordenadas de los objetos que se van a generar
 	int cx, cy;
@@ -86,7 +89,15 @@ GestionJuego::GestionJuego()
 	IniciarElementos();
 }
 
-GestionJuego::~GestionJuego() {}
+GestionJuego::~GestionJuego() 
+{
+	delete guardian;
+	for (auto agua : aguas) delete agua;
+	for (auto semilla : semillas) delete semilla;
+	for (auto arbol : arboles) delete arbol;
+	for (auto basura : basuras) delete basura;
+	for (auto enemigo : enemigos) delete enemigo;
+}
 
 void GestionJuego::IniciarJuego()
 {
@@ -94,10 +105,10 @@ void GestionJuego::IniciarJuego()
 	setFont(L"Cascadia Mono Semibold", 28, 38);
 	Console::SetWindowSize(47, 19);
 
-	RepNivelNormal();
 	MostrarUIJuego();
+	RepNivelNormal();
 
-	while (true)
+	do
 	{
 		RevisarColisiones();
 		BorrarTodo();
@@ -241,32 +252,56 @@ void GestionJuego::IniciarJuego()
 		setBkgTxtColor(0, 2);
 		GoTo(39, 7);  cout << PorcentajeReforestacion() << "%";
 		setBkgTxtColor(1, 0);
-
-		if (AnalizarGameOver()) break;
-
+		
 		if (PorcentajeReforestacion() >= 50 && musicaFinal == false)
 		{
-			//reproducirMusicaNivelFinalBoss();
+			RepNivelParteFinal();
 			tiempoBasura = 4;
 			musicaFinal = true;
 		}
 
+		//if (AnalizarGameOver())
+		if (true)
+		{
+			// regresar la ventana a su configuracion inicial para evitar errores
+			setFont(L"Cascadia Mono", 10, 20);
+			Console::SetWindowSize(104, 24);
+			LimpiarPantalla();
+
+			//if (DeterminarVictoria())
+			if (true)
+			{
+				MostrarMenuVictoria();
+
+				GoTo(26, 15);
+				MostrarCursor();
+				getline(cin, nick);
+				EsconderCursor();
+
+				guardian->setNombre(nick);
+
+				opcReiniciarJuego = obtenerOpcVictoria();
+			}
+			else
+			{
+				MostrarMenuDerrota();
+				opcReiniciarJuego = obtenerOpcDerrota();
+			}
+
+			if (opcReiniciarJuego == 1)
+			{
+				// configurar nuevo tamano y fuente para la ventana
+				setFont(L"Cascadia Mono Semibold", 28, 38);
+				Console::SetWindowSize(47, 19);
+				ReiniciarEstado();
+			}
+			else break;
+		}
+
 		Esperar(50);
-	}
+	} while (true);
 
-	// regresar la ventana a su configuracion inicial para evitar errores
-	// no cambiar el orden de las instrucciones
-	setFont(L"Cascadia Mono", 10, 20);
-	Console::SetWindowSize(104, 24);
-
-	if (DeterminarVictoria())
-	{
-		// win
-	}
-	else
-	{
-		// lose
-	}
+	/// Almacenar puntaje en el .dat
 }
 
 void GestionJuego::RevisarColisiones()
@@ -693,6 +728,8 @@ void GestionJuego::ReiniciarEstado()
 	arboles.clear();
 	basuras.clear();
 	enemigos.clear();
+
+	guardian->ReiniciarEstado();
 
 	IniciarElementos();
 }

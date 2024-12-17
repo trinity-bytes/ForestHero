@@ -10,13 +10,17 @@ void main()
 	ConfigurarConsola();
 
 	short opc;
-	bool continuar;
+	bool continuar = true;
 
 	GestionJuego* juego;
 
 	do
 	{
 		juego = new GestionJuego();
+
+		LimpiarPantalla();
+
 		juego->IniciarJuego();
-	} while (true);
+
+	} while (continuar);
 }

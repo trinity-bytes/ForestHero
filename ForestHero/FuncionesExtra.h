@@ -61,7 +61,12 @@ void Esperar(int ms)
     Sleep(ms); // milisegundos
 }
 
-void HideCursor() 
+void LimpiarPantalla() 
+{
+    system("cls");
+}
+
+void EsconderCursor() 
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
@@ -70,6 +75,17 @@ void HideCursor()
     cursorInfo.bVisible = FALSE;
     SetConsoleCursorInfo(hConsole, &cursorInfo);
 }
+
+void MostrarCursor()
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+
+    GetConsoleCursorInfo(hConsole, &cursorInfo);
+    cursorInfo.bVisible = TRUE;
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+}
+
 
 void setFont(const wchar_t* fontName, SHORT sizeX, SHORT sizeY) 
 {
@@ -109,7 +125,7 @@ void ConfigurarConsola()
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 
-    HideCursor();
+    EsconderCursor();
 
     setFont(L"Cascadia Mono", 10, 20);
 
