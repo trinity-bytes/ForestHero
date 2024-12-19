@@ -265,13 +265,15 @@ void GestionJuego::IniciarJuego()
 		{
 			// regresar la ventana a su configuracion inicial para evitar errores
 			setFont(L"Cascadia Mono", 10, 20);
-			Console::SetWindowSize(104, 24);
+			Console::SetWindowSize(104, 28);
 			LimpiarPantalla();
 
 			//if (DeterminarVictoria())
-			if (true)
+			if (false)
 			{
 				MostrarMenuVictoria();
+				RepGOVictoria();
+				RepWinner();
 
 				GoTo(26, 15);
 				MostrarCursor();
@@ -280,12 +282,15 @@ void GestionJuego::IniciarJuego()
 
 				guardian->setNombre(nick);
 
-				opcReiniciarJuego = obtenerOpcVictoria();
+				opcReiniciarJuego = ObtenerOpcVictoria();
 			}
 			else
 			{
 				MostrarMenuDerrota();
-				opcReiniciarJuego = obtenerOpcDerrota();
+				RepGODerrota();
+				RepLoser();
+
+				opcReiniciarJuego = ObtenerOpcDerrota();
 			}
 
 			if (opcReiniciarJuego == 1)

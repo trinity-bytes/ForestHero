@@ -16,11 +16,31 @@ void main()
 
 	do
 	{
-		juego = new GestionJuego();
-
 		LimpiarPantalla();
 
-		juego->IniciarJuego();
+		MostrarMenuPrincipal();
+		opc = ObtenerOpcionMenuPrincipal();
 
+		switch (opc)
+		{
+		case 1:
+			juego = new GestionJuego();
+
+			RepSeleccionIniciarJuego();
+			LimpiarPantalla();
+
+			juego->IniciarJuego();
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		default:
+			break;
+		}
 	} while (continuar);
+
+	delete juego;
 }

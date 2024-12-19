@@ -64,7 +64,7 @@
       <Filter>Header Files\Otros</Filter>
     </ClInclude>
     <ClInclude Include="Musica.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Otros</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

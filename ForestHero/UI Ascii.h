@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "FuncionesExtra.h"
-#include "Guardian.h";
-#include "Enemigo.h";
-#include "Basura.h";
-#include "Semilla.h";
-#include "Agua.h";
-#include "Arbol.h";
+#include "Guardian.h"
+#include "Enemigo.h"
+#include "Basura.h"
+#include "Semilla.h"
+#include "Agua.h"
+#include "Arbol.h"
 #include "conio.h"
 
 #define TECLA_ARRIBA    72  // Flecha arriba
@@ -21,10 +21,10 @@ int opcMPSeleccionada = 0;
 int opcGameOverSeleccionada = 0;
 
 const string opcionesMenuPrincipal[cantOpcMP] = {
-	"    INICIAR JUEGO    ",
-	"      TUTORIAL       ",
-	"      RANKING        ",
-	"       SALIR         "
+	"    JUGAR       ",
+	"    RANKING     ",
+	"    TUTORIAL    ",
+	"    SALIR       "
 };
 
 const string opcionesGameOver[cantOpcGameOver] = {
@@ -40,6 +40,39 @@ const string barraVidas[6] = {
 	u8"▓▓▓▓-",
 	u8"▓▓▓▓▓"
 };
+
+void MostrarMenuPrincipal()
+{
+    string objeto = u8R"(
+
+    ╔═════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                                                                                             ║
+    ║                                                                                             ║
+    ║    ▄███████ ▄█████▄ █████▄   ▄██████ ▄██████ ███████    ██   ██ ▄██████ █████▄   ▄█████▄    ║ 
+    ║    ████████ ███████ ███  █   ███████ ███████ ▀█████▀    ██   ██ ███████ ███  █   ███████    ║ 
+    ║    ████     █     █ ███  █   ███     █         ███      ██▄▄▄██ ███     ███  █   █     █    ║
+    ║    ████████ █     █ ███████▄ ███████ ▀██████   ███      ███████ ███████ ███████▄ █     █    ║
+    ║    █████    ███████ ███    █ ███           █   ███      ██▀▀▀██ ███     ███    █ ███████    ║
+    ║    ▀████    ▀█████▀ ███    █ ▀██████ ▄██████   ███      ██   ██ ▀██████ ███    █ ▀█████▀    ║
+    ║                                                                                             ║
+    ╠═════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                             ║
+    ║                                                                  ,@@@@@@@,                  ║
+    ║                                                          ,,,.   ,@@@@@@/@@,  .oo8888o.      ║
+    ║                       JUGAR                           ,&%%&%&&%,@@@@@/@@@@@@,8888\88/8o     ║
+    ║                       RANKING                        ,%&\%&&%&&%,@@@\@@@/@@@88\88888/88'    ║
+    ║                       TUTORIAL                       %&&%&%&/%&&%@@\@@/ /@@@88888\88888'    ║
+    ║                       SALIR                          %&&%/ %&%%&&@@\ V /@@' `88\8 `/88'     ║
+    ║                                                      `&%\ ` /%&'    |.|        \ '|8'       ║
+    ║                                                          |o|        | |         | |         ║
+    ║                                                       \\/ ._\//_/__/  ,\_//__\\/.  \_//__/_ ║
+    ╚═════════════════════════════════════════════════════════════════════════════════════════════╝
+     Usa las teclas ARRIBA y ABAJO para navegar por las opciones.
+     Pulsa ENTER para seleccionar la opcion que deseas.
+)";
+
+    cout << objeto;
+}
 
 void MostrarUIJuego()
 {
@@ -160,7 +193,44 @@ void MostrarMenuDerrota()
     cout << objeto;
 }
 
-void mostrarOpcVictoria()
+void MostrarOpcMenuPrincipal()
+{
+    for (int i = 0; i < cantOpcMP; i++) 
+    {
+        GoTo(24, 16 + i);
+        if (i == opcMPSeleccionada) 
+        {
+            setBkgTxtColor(0, 1);
+        }
+        else 
+        {
+            setBkgTxtColor(1, 0);
+        }
+
+        cout << opcionesMenuPrincipal[i] << endl;
+    }
+}
+
+short ObtenerOpcionMenuPrincipal() 
+{
+    char tecla;
+    do {
+        MostrarOpcMenuPrincipal();
+        tecla = _getch(); // Obtener la tecla presionada sin necesidad de Enter
+        switch (tecla) 
+        {
+        case TECLA_ARRIBA: // Flecha arriba
+            opcMPSeleccionada = (opcMPSeleccionada - 1 + cantOpcMP) % cantOpcMP; break;
+        case TECLA_ABAJO: // Flecha abajo
+            opcMPSeleccionada = (opcMPSeleccionada + 1) % cantOpcMP; break;
+        case ENTER: // Enter
+            return opcMPSeleccionada + 1;
+        }
+        Sleep(40);
+    } while (true);
+}
+
+void MostrarOpcVictoria()
 {
 	int posicionesX[cantOpcGameOver] = { 28, 54 }; // Coordenadas X para cada opc
     int posicionY = 19; // Coordenada Y fija para ambas opc
@@ -177,11 +247,11 @@ void mostrarOpcVictoria()
     setBkgTxtColor(1, 0);
 }
 
-short obtenerOpcVictoria() 
+short ObtenerOpcVictoria() 
 {
     char tecla;
     do {
-        mostrarOpcVictoria();
+        MostrarOpcVictoria();
         tecla = getch(); // Obtener la tecla presionada sin necesidad de Enter
         switch (tecla)
         {
@@ -189,7 +259,7 @@ short obtenerOpcVictoria()
             opcGameOverSeleccionada = (opcGameOverSeleccionada - 1 + cantOpcGameOver) % cantOpcGameOver;
             break;
         case TECLA_DERECHA: // Flecha derecha
-            opcGameOverSeleccionada = (opcGameOverSeleccionada + 1) % cantOpcGameOver;
+            opcGameOverSeleccionada = (opcGameOverSeleccionada + 1) % cantOpcGameOver; 
             break;
         case ENTER: // Enter
             return opcGameOverSeleccionada + 1;
@@ -198,7 +268,7 @@ short obtenerOpcVictoria()
     } while (true);
 }
 
-void mostrarOpcDerrota() 
+void MostrarOpcDerrota() 
 {
     int posicionesX[cantOpcGameOver] = { 28, 54 }; // Coordenadas X para cada opc
     int posicionY = 16; // Coordenada Y fija para ambas opc
@@ -215,11 +285,11 @@ void mostrarOpcDerrota()
     setBkgTxtColor(1, 0);
 }
 
-short obtenerOpcDerrota() 
+short ObtenerOpcDerrota() 
 {
     char tecla;
     do {
-        mostrarOpcDerrota();
+        MostrarOpcDerrota();
         tecla = getch(); // Obtener la tecla presionada sin necesidad de Enter
         switch (tecla)
         {
