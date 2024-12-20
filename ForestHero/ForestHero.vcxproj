@@ -114,6 +114,7 @@
     <ClInclude Include="Agente.h" />
     <ClInclude Include="Agua.h" />
     <ClInclude Include="Arbol.h" />
+    <ClInclude Include="Ascii Art.h" />
     <ClInclude Include="Basura.h" />
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="Entidad.h" />
@@ -121,6 +122,7 @@
     <ClInclude Include="GestionJuego.h" />
     <ClInclude Include="Guardian.h" />
     <ClInclude Include="Musica.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Semilla.h" />
     <ClInclude Include="UI Ascii.h" />
   </ItemGroup>
@@ -129,6 +131,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestHero.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ForestHero.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\jahat\Downloads\Raccoon-Flat-icon.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

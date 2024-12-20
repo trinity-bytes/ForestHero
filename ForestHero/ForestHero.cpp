@@ -1,13 +1,14 @@
 #include "GestionJuego.h"
+#include "Ascii Art.h"
 
 using namespace std;
 using namespace System;
 
 void main()
 {
-	Console::Title = "ForestHero v1.5";
-	Console::SetWindowSize(104, 24);
 	ConfigurarConsola();
+	Console::Title = "ForestHero v1.5";
+	Console::SetWindowSize(104, 28);
 
 	short opc;
 	bool continuar = true;
@@ -16,6 +17,7 @@ void main()
 
 	do
 	{
+		RepMenuPrincipal();
 		LimpiarPantalla();
 
 		MostrarMenuPrincipal();
@@ -30,17 +32,30 @@ void main()
 			LimpiarPantalla();
 
 			juego->IniciarJuego();
+			delete juego;
 			break;
 		case 2:
+			RepSeleccionMenuSecundario();
+			LimpiarPantalla();
+			RepMenuSecundario();
+
+			system("pause>0");
 			break;
 		case 3:
+			LimpiarPantalla();
+			RepSeleccionMenuSecundario();
+			RepMenuSecundario();
+
+			system("pause>0");
 			break;
 		case 4:
+			LimpiarPantalla();
+			MostrarDespedida();
+			RepSalirJuego();
+			continuar = false;
 			break;
 		default:
 			break;
 		}
 	} while (continuar);
-
-	delete juego;
 }
