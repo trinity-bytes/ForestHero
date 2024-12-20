@@ -354,7 +354,7 @@ void MostrarRanking()
     for (size_t i = 0; i < limite; i++) 
     {
         GoTo(39, 14 + i);
-        cout << ranking[i].nombre << " - " << ranking[i].puntos << " puntos" << endl;
+        cout << ranking[i].nombre << "  -  " << ranking[i].puntos << " puntos" << endl;
     }
 }
 
