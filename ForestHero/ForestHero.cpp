@@ -4,16 +4,17 @@
 using namespace std;
 using namespace System;
 
+void Jugar();
+void Ranking();
+void Tutorial();
+void Salir();
+
 void main()
 {
 	ConfigurarConsola();
-	Console::Title = "ForestHero v1.5";
-	Console::SetWindowSize(104, 28);
-
+	
 	short opc;
 	bool continuar = true;
-
-	GestionJuego* juego;
 
 	do
 	{
@@ -26,36 +27,54 @@ void main()
 		switch (opc)
 		{
 		case 1:
-			juego = new GestionJuego();
-
-			RepSeleccionIniciarJuego();
-			LimpiarPantalla();
-
-			juego->IniciarJuego();
-			delete juego;
-			break;
+			Jugar(); break;
 		case 2:
-			RepSeleccionMenuSecundario();
-			LimpiarPantalla();
-			RepMenuSecundario();
-
-			system("pause>0");
-			break;
+			Ranking(); break;
 		case 3:
-			LimpiarPantalla();
-			RepSeleccionMenuSecundario();
-			RepMenuSecundario();
-
-			system("pause>0");
-			break;
+			Tutorial(); break;
 		case 4:
-			LimpiarPantalla();
-			MostrarDespedida();
-			RepSalirJuego();
+			Salir();
 			continuar = false;
 			break;
-		default:
-			break;
+		default: break;
 		}
 	} while (continuar);
+}
+
+void Jugar()
+{
+	GestionJuego* juego;
+	juego = new GestionJuego();
+
+	RepSeleccionIniciarJuego();
+	LimpiarPantalla();
+
+	juego->IniciarJuego();
+	delete juego;
+}
+
+void Ranking()
+{
+	RepSeleccionMenuSecundario();
+	LimpiarPantalla();
+	RepMenuSecundario();
+
+	MostrarRanking();
+	system("pause>0");
+}
+
+void Tutorial()
+{
+	LimpiarPantalla();
+	RepSeleccionMenuSecundario();
+	RepMenuSecundario();
+
+	system("pause>0");
+}
+
+void Salir()
+{
+	LimpiarPantalla();
+	MostrarDespedida();
+	RepSalirJuego();
 }

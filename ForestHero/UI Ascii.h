@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "FuncionesExtra.h"
+#include "GestionPuntajes.h"
 #include "Guardian.h"
 #include "Enemigo.h"
 #include "Basura.h"
@@ -7,6 +8,7 @@
 #include "Agua.h"
 #include "Arbol.h"
 #include "conio.h"
+#include "vector"
 
 #define TECLA_ARRIBA    72  // Flecha arriba
 #define TECLA_ABAJO     80  // Flecha abajo
@@ -193,6 +195,40 @@ void MostrarMenuDerrota()
     cout << objeto;
 }
 
+void MostrarUIRanking()
+{
+    string objetoS = u8R"(
+
+    ╔═════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                             _____             _    _                                        ║
+    ║                            |  __ \           | |  (_)                                       ║
+    ║                            | |__) |__ _ _ __ | | ___ _ __   __ _                            ║
+    ║                            |  _  // _` | '_ \| |/ / | '_ \ / _` |                           ║
+    ║                            | | \ \ (_| | | | |   <| | | | | (_| |                           ║
+    ║                            |_|  \_\__,_|_| |_|_|\_\_|_| |_|\__, |                           ║
+    ║                                                             __/ |                           ║
+    ║                                                            |___/                            ║
+    ║                                                                                             ║
+    ╠═════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                                                                             ║
+    ║                               1. ----------                                                 ║
+    ║                               2. ----------                                                 ║
+    ║                               3. ----------                                                 ║
+    ║                               4. ----------                                                 ║
+    ║                               5. ----------                                                 ║
+    ║                               6. ----------                                                 ║
+    ║                               7. ----------                                                 ║
+    ║                               8. ----------                                                 ║
+    ║                               9. ----------                                                 ║
+    ║                              10. ----------                                                 ║
+    ║                                                                                             ║
+    ╚═════════════════════════════════════════════════════════════════════════════════════════════╝
+     Pulsa ESC para regresar al menu.
+)";
+
+    cout << objetoS;
+}
+
 void MostrarOpcMenuPrincipal()
 {
     for (int i = 0; i < cantOpcMP; i++) 
@@ -304,6 +340,22 @@ short ObtenerOpcDerrota()
         }
         Sleep(40);
     } while (true);
+}
+
+void MostrarRanking()
+{
+    GestionPuntajes rank("Resources/Data/Puntaje.dat");
+
+    MostrarUIRanking();
+
+    vector<Puntaje> ranking = rank.ObtenerRanking();
+    size_t limite = min(ranking.size(), size_t(10));
+
+    for (size_t i = 0; i < limite; i++) 
+    {
+        GoTo(39, 14 + i);
+        cout << ranking[i].nombre << " - " << ranking[i].puntos << " puntos" << endl;
+    }
 }
 
 void DibujarBarraVidas(int v) 

@@ -1,12 +1,13 @@
 #pragma once
+#include "GestionPuntajes.h"
 #include "UI Ascii.h"
 #include "Musica.h"
 #include "Guardian.h"
 #include "Enemigo.h"
-#include "Agua.h";
-#include "Semilla.h";
-#include "Arbol.h";
-#include "Basura.h";
+#include "Agua.h"
+#include "Semilla.h"
+#include "Arbol.h"
+#include "Basura.h"
 #include "vector"
 #include "conio.h"
 
@@ -73,6 +74,7 @@ public:
 	double PorcentajeReforestacion();
 	bool AnalizarGameOver();
 	bool DeterminarVictoria();
+	void GuardarPuntajes();
 	void ReiniciarEstado();
 };
 
@@ -269,7 +271,7 @@ void GestionJuego::IniciarJuego()
 			LimpiarPantalla();
 
 			//if (DeterminarVictoria())
-			if (false)
+			if (true)
 			{
 				MostrarMenuVictoria();
 				RepGOVictoria();
@@ -283,6 +285,9 @@ void GestionJuego::IniciarJuego()
 				guardian->setNombre(nick);
 
 				opcReiniciarJuego = ObtenerOpcVictoria();
+
+				/// Guardamos el puntaje en un archivo .dat
+				GuardarPuntajes();
 			}
 			else
 			{
@@ -305,8 +310,6 @@ void GestionJuego::IniciarJuego()
 
 		Esperar(50);
 	} while (true);
-
-	/// Almacenar puntaje en el .dat
 }
 
 void GestionJuego::RevisarColisiones()
@@ -686,11 +689,25 @@ void GestionJuego::AgregarBasura()
 {
 	int r = GenerarNumeroAleatorio(0, enemigos.size() - 1);
 
-	cx = enemigos[r]->getX();
-	cy = enemigos[r]->getY();
+	bool puedePoner = true;
 
-	Basura* b = new Basura(cx, cy);
-	basuras.push_back(b);
+	for (int i = 0; i < basuras.size(); i++)
+	{
+		if (enemigos[r]->getX() == basuras[i]->getX() &&
+			enemigos[r]->getY() == basuras[i]->getY())
+		{
+			puedePoner = false;
+		}
+	}
+
+	if (puedePoner)
+	{
+		cx = enemigos[r]->getX();
+		cy = enemigos[r]->getY();
+
+		Basura* b = new Basura(cx, cy);
+		basuras.push_back(b);
+	}
 }
 
 double GestionJuego::PorcentajeReforestacion()
@@ -723,6 +740,17 @@ bool GestionJuego::DeterminarVictoria()
 	{
 		return false;
 	}
+}
+
+void GestionJuego::GuardarPuntajes()
+{
+	GestionPuntajes rank("Resources/Data/Puntaje.dat");
+
+	Puntaje pts;
+	pts.nombre = guardian->getNombre();
+	pts.puntos = guardian->getPuntos();
+
+	rank.GuardarPuntaje(pts);
 }
 
 void GestionJuego::ReiniciarEstado()

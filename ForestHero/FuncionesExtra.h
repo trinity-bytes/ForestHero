@@ -147,6 +147,9 @@ void ConfigurarConsola()
     setColorPalette(15, OSCURIDAD);
 
     setBkgTxtColor(1, 0);
+
+    Console::Title = "ForestHero v1.5";
+    Console::SetWindowSize(104, 28);
 }
 
 /*
