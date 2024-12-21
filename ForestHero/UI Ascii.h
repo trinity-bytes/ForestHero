@@ -208,7 +208,6 @@ void MostrarUIRanking()
     ║                            |_|  \_\__,_|_| |_|_|\_\_|_| |_|\__, |                           ║
     ║                                                             __/ |                           ║
     ║                                                            |___/                            ║
-    ║                                                                                             ║
     ╠═════════════════════════════════════════════════════════════════════════════════════════════╣
     ║                                                                                             ║
     ║                               1. ----------                                                 ║
@@ -227,6 +226,118 @@ void MostrarUIRanking()
 )";
 
     cout << objetoS;
+}
+
+void MostrarTutorial1()
+{
+    string objetoI = u8R"(
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════════╗ 
+ ║                                  _______    _             _       _                                ║
+ ║                                 |__   __|  | |           (_)     | |                               ║
+ ║                                    | |_   _| |_ ___  _ __ _  __ _| |                               ║
+ ║                                    | | | | | __/ _ \| '__| |/ _` | |                               ║
+ ║                                    | | |_| | || (_) | |  | | (_| | |                               ║
+ ║                                    |_|\__,_|\__\___/|_|  |_|\__,_|_|                               ║
+ ║                                                                                                    ║
+ ╠═══════════════════════════╦═════════════════════════════════════════╦══════════════════════════════╣
+ ║                           ║                                         ║                              ║
+ ║   GUARDIAN (Jugador): @   ║   SEMILLA: @     AGUA: @     ARBOL: @   ║   ENEMIGO: @     BASURA: @   ║
+ ║                           ║                                         ║                              ║
+ ╠═══════════════════════════╩══════════════╦══════════════════════════╩══════════════════════════════╣
+ ║                                          ║                                                         ║
+ ║   CONTROLES:                             ║   INSTRUCCIONES:                                        ║
+ ║                                          ║                                                         ║
+ ║   - Utiliza las teclas W,A,S,D para      ║   - Eres el GUARDIAN de bosque.                         ║
+ ║   - Presiona K para DISPARAR semillas.   ║   - Tu deber es restaurar el equilibrio en el bosque    ║
+ ║   - Presiona M para PLANTAR un arbol.    ║     a travez de la reforestacion.                       ║
+ ║   - Presiona P para PAUSAR el juego.     ║   - Para ganar, debes REFORESTAR al menos el 70%        ║
+ ║   - Presiona ESC para salir del nivel.   ║     del escenario.                                      ║
+ ║                                          ║                                                         ║
+ ╚══════════════════════════════════════════╩═════════════════════════════════════════════════════════╝
+  Utiliza las techas IZQUIERDA y DERECHA para navegar por las instrucciones.
+  Presion ESC para regresar al menu principal. 
+)";
+
+    Semilla* semilla = new Semilla(39, 24);
+    Agua* agua = new Agua(51, 24);
+    Arbol* arbol = new Arbol(64, 24);
+    Enemigo* enemigo = new Enemigo(79, 24);
+    Basura* basura = new Basura(93, 24);
+
+    cout << objetoI;
+
+    semilla->Dibujar();
+    agua->Dibujar();
+    arbol->Dibujar();
+    enemigo->Dibujar();
+    basura->Dibujar();
+
+    delete semilla;
+    delete agua;
+    delete arbol;
+    delete enemigo;
+    delete basura;
+}
+
+void MostrarTutorial1()
+{
+    string objetoI = u8R"(
+
+ ╔════════════════════════════════════════════════════════════════════════════════════════════════════╗ 
+ ║                                  _______    _             _       _                                ║
+ ║                                 |__   __|  | |           (_)     | |                               ║
+ ║                                    | |_   _| |_ ___  _ __ _  __ _| |                               ║
+ ║                                    | | | | | __/ _ \| '__| |/ _` | |                               ║
+ ║                                    | | |_| | || (_) | |  | | (_| | |                               ║
+ ║                                    |_|\__,_|\__\___/|_|  |_|\__,_|_|                               ║
+ ║                                                                                                    ║
+ ╠═══════════════════════════╦═════════════════════════════════════════╦══════════════════════════════╣
+ ║                           ║                                         ║                              ║
+ ║   GUARDIAN (Jugador): @   ║   SEMILLA: @     AGUA: @     ARBOL: @   ║   ENEMIGO: @     BASURA: @   ║
+ ║                           ║                                         ║                              ║
+ ╠═══════════════════════════╩══════════════╦══════════════════════════╩══════════════════════════════╣
+ ║                                          ║                                                         ║
+ ║   CONTROLES:                             ║   DURANTE EL JUEGO:                                     ║
+ ║                                          ║                                                         ║
+ ║   - Utiliza las teclas W,A,S,D para      ║   - El AGUA y las SEMILLAS son recursos que aparecen    ║
+ ║     mover al personaje.                  ║     aleatoriamente por el mapa cada cierto tiempo.      ║
+ ║   - Presiona K para DISPARAR semillas.   ║                                                         ║
+ ║   - Presiona M para PLANTAR un arbol.    ║                                                         ║
+ ║   - Presiona P para PAUSAR el juego.     ║                                                         ║
+ ║   - Presiona ESC para salir del nivel.   ║                                                         ║
+ ║                                          ║                                                         ║
+ ╚══════════════════════════════════════════╩═════════════════════════════════════════════════════════╝
+ ║   -                  ║
+ ║   - Cada vez que plants un arbol consumiras una semilla y una gota de agua.                        ║
+ ║   - Las semillas disparadas pueden destruir la basura.                                             ║
+ ║   - Los ENEMIGOS INCREMENTAN con el transcurso del tiempo.                                         ║
+ ║   - Si chocas con un ENEMIGO o con la BASURA, perderas una vida.                                   ║
+ ║   - Si te quedas sin vidas, PIERDES la partida.                                                    ║
+ ║   - Para ganar, debes REFORESTAR al menos el 70% del escenario.                                    ║
+
+   Pulsa ENTER para regresar al menu.
+)";
+
+    Semilla* semilla = new Semilla(39, 24);
+    Agua* agua = new Agua(51, 24);
+    Arbol* arbol = new Arbol(64, 24);
+    Enemigo* enemigo = new Enemigo(79, 24);
+    Basura* basura = new Basura(93, 24);
+
+    cout << objetoI;
+
+    semilla->Dibujar();
+    agua->Dibujar();
+    arbol->Dibujar();
+    enemigo->Dibujar();
+    basura->Dibujar();
+
+    delete semilla;
+    delete agua;
+    delete arbol;
+    delete enemigo;
+    delete basura;
 }
 
 void MostrarOpcMenuPrincipal()
@@ -353,7 +464,7 @@ void MostrarRanking()
 
     for (size_t i = 0; i < limite; i++) 
     {
-        GoTo(39, 14 + i);
+        GoTo(39, 13 + i);
         cout << ranking[i].nombre << "  -  " << ranking[i].puntos << " puntos" << endl;
     }
 }
@@ -362,37 +473,15 @@ void DibujarBarraVidas(int v)
 {
 	switch (v)
 	{
-	case 0:
-		setBkgTxtColor(1, 4);
-		cout << barraVidas[0];
-		setBkgTxtColor(1, 0);
-		break;
-	case 1:
-		setBkgTxtColor(1, 4);
-		cout << barraVidas[1];
-		setBkgTxtColor(1, 0);
-		break;
-	case 2:
-		setBkgTxtColor(1, 7);
-		cout << barraVidas[2];
-		setBkgTxtColor(1, 0);
-		break;
-	case 3:
-		setBkgTxtColor(1, 7);
-		cout << barraVidas[3];
-		setBkgTxtColor(1, 0);
-		break;
-	case 4:
-		setBkgTxtColor(1, 8);
-		cout << barraVidas[4];
-		setBkgTxtColor(1, 0);
-		break;
-	case 5:
-		setBkgTxtColor(1, 8);
-		cout << barraVidas[5];
-		setBkgTxtColor(1, 0);
-		break;
-	default:
-		break;
+	case 0: setBkgTxtColor(1, 4); break;
+	case 1:	setBkgTxtColor(1, 4); break;
+	case 2:	setBkgTxtColor(1, 7); break;
+	case 3:	setBkgTxtColor(1, 7); break;
+	case 4:	setBkgTxtColor(1, 8); break;
+	case 5:	setBkgTxtColor(1, 8); break;
+	default: break;
 	}
+
+	cout << barraVidas[v];
+    setBkgTxtColor(1, 0);
 }

@@ -40,10 +40,10 @@ private:
 
 	const int cantInicialEnemigos = 5;
 	const int cantInicialAgua = 10;
-	const int cantInicialSemillas = 15;
+	const int cantInicialSemillas = 20;
 
-	const int limiteAgua = 25;
-	const int limiteSemillas = 30;
+	const int limiteAgua = 30;
+	const int limiteSemillas = 50;
 	const int limiteEnemigos = 30;
 
 	bool colisionConBasura = false;
@@ -232,8 +232,15 @@ void GestionJuego::IniciarJuego()
 					guardian->setCantSemillas(guardian->getCantSemillas() - 4);
 				}
 			}
+			else if (tecla == 'P' || tecla == 'p') /// Pausar juego
+			{
+				system("pause>0");
+			}
 			else if (tecla == 27)
 			{
+				// regresar la ventana a su configuracion inicial para evitar errores
+				setFont(L"Cascadia Mono", 10, 20);
+				Console::SetWindowSize(104, 28);
 				break; // finalizar el juego si presiona ESC
 			}
 		}
@@ -262,16 +269,16 @@ void GestionJuego::IniciarJuego()
 			musicaFinal = true;
 		}
 
-		//if (AnalizarGameOver())
-		if (true)
+		if (AnalizarGameOver())
+		//if (true)
 		{
 			// regresar la ventana a su configuracion inicial para evitar errores
 			setFont(L"Cascadia Mono", 10, 20);
 			Console::SetWindowSize(104, 28);
 			LimpiarPantalla();
 
-			//if (DeterminarVictoria())
-			if (true)
+			if (DeterminarVictoria())
+			//if (true)
 			{
 				MostrarMenuVictoria();
 				RepGOVictoria();

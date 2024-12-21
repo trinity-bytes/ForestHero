@@ -4,6 +4,7 @@
 using namespace std;
 using namespace System;
 
+void SecuenciaDeInicio();
 void Jugar();
 void Ranking();
 void Tutorial();
@@ -11,10 +12,10 @@ void Salir();
 
 void main()
 {
-	ConfigurarConsola();
-	
 	short opc;
 	bool continuar = true;
+
+	SecuenciaDeInicio();
 
 	do
 	{
@@ -33,12 +34,15 @@ void main()
 		case 3:
 			Tutorial(); break;
 		case 4:
-			Salir();
-			continuar = false;
-			break;
+			Salir(); continuar = false; break;
 		default: break;
 		}
 	} while (continuar);
+}
+
+void SecuenciaDeInicio()
+{
+	ConfigurarConsola();
 }
 
 void Jugar()
