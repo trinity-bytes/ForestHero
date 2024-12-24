@@ -259,11 +259,11 @@ void MostrarTutorial1()
   Presion ESC para regresar al menu principal. 
 )";
 
-    Semilla* semilla = new Semilla(39, 24);
-    Agua* agua = new Agua(51, 24);
-    Arbol* arbol = new Arbol(64, 24);
-    Enemigo* enemigo = new Enemigo(79, 24);
-    Basura* basura = new Basura(93, 24);
+    Semilla* semilla = new Semilla(42, 12);
+    Agua* agua = new Agua(54, 12);
+    Arbol* arbol = new Arbol(67, 12);
+    Enemigo* enemigo = new Enemigo(84, 12);
+    Basura* basura = new Basura(98, 12);
 
     cout << objetoI;
 
@@ -280,7 +280,7 @@ void MostrarTutorial1()
     delete basura;
 }
 
-void MostrarTutorial1()
+void MostrarTutorial2()
 {
     string objetoI = u8R"(
 
@@ -292,52 +292,23 @@ void MostrarTutorial1()
  ║                                    | | |_| | || (_) | |  | | (_| | |                               ║
  ║                                    |_|\__,_|\__\___/|_|  |_|\__,_|_|                               ║
  ║                                                                                                    ║
- ╠═══════════════════════════╦═════════════════════════════════════════╦══════════════════════════════╣
- ║                           ║                                         ║                              ║
- ║   GUARDIAN (Jugador): @   ║   SEMILLA: @     AGUA: @     ARBOL: @   ║   ENEMIGO: @     BASURA: @   ║
- ║                           ║                                         ║                              ║
- ╠═══════════════════════════╩══════════════╦══════════════════════════╩══════════════════════════════╣
- ║                                          ║                                                         ║
- ║   CONTROLES:                             ║   DURANTE EL JUEGO:                                     ║
- ║                                          ║                                                         ║
- ║   - Utiliza las teclas W,A,S,D para      ║   - El AGUA y las SEMILLAS son recursos que aparecen    ║
- ║     mover al personaje.                  ║     aleatoriamente por el mapa cada cierto tiempo.      ║
- ║   - Presiona K para DISPARAR semillas.   ║                                                         ║
- ║   - Presiona M para PLANTAR un arbol.    ║                                                         ║
- ║   - Presiona P para PAUSAR el juego.     ║                                                         ║
- ║   - Presiona ESC para salir del nivel.   ║                                                         ║
- ║                                          ║                                                         ║
- ╚══════════════════════════════════════════╩═════════════════════════════════════════════════════════╝
- ║   -                  ║
- ║   - Cada vez que plants un arbol consumiras una semilla y una gota de agua.                        ║
- ║   - Las semillas disparadas pueden destruir la basura.                                             ║
- ║   - Los ENEMIGOS INCREMENTAN con el transcurso del tiempo.                                         ║
- ║   - Si chocas con un ENEMIGO o con la BASURA, perderas una vida.                                   ║
- ║   - Si te quedas sin vidas, PIERDES la partida.                                                    ║
- ║   - Para ganar, debes REFORESTAR al menos el 70% del escenario.                                    ║
-
-   Pulsa ENTER para regresar al menu.
+ ╠═════════════════════════════════════════════════════╦══════════════════════════════════════════════╣
+ ║                                                     ║                                              ║
+ ║   RECURSOS:                                         ║   ENEMIGOS:                                  ║
+ ║                                                     ║                                              ║
+ ║   - Cada vez que plantas un arbol se consume        ║   - La cantidad de enemigos INCREMENTA con   ║
+ ║     una unidad de semilla y de agua.                ║     el transcurso del tiempo.                ║
+ ║   - Cada vez que disparas se consumen 4 semillas.   ║   - Si tocas a un ENEMIGO o a la BASURA,     ║
+ ║   - Las semillas disparadas pueden destruir         ║     perderas una vida.                       ║
+ ║     la basura y eliminar enemigos.                  ║   - Si te quedas sin vidas, PIERDES la       ║
+ ║                                                     ║     partida.                                 ║
+ ║                                                     ║                                              ║
+ ╚═════════════════════════════════════════════════════╩══════════════════════════════════════════════╝
+  Utiliza las techas IZQUIERDA y DERECHA para navegar por las instrucciones.
+  Presion ESC para regresar al menu principal. 
 )";
 
-    Semilla* semilla = new Semilla(39, 24);
-    Agua* agua = new Agua(51, 24);
-    Arbol* arbol = new Arbol(64, 24);
-    Enemigo* enemigo = new Enemigo(79, 24);
-    Basura* basura = new Basura(93, 24);
-
     cout << objetoI;
-
-    semilla->Dibujar();
-    agua->Dibujar();
-    arbol->Dibujar();
-    enemigo->Dibujar();
-    basura->Dibujar();
-
-    delete semilla;
-    delete agua;
-    delete arbol;
-    delete enemigo;
-    delete basura;
 }
 
 void MostrarOpcMenuPrincipal()
@@ -467,6 +438,25 @@ void MostrarRanking()
         GoTo(39, 13 + i);
         cout << ranking[i].nombre << "  -  " << ranking[i].puntos << " puntos" << endl;
     }
+}
+
+void MostrarUITutorial()
+{
+    char tecla = 75;
+
+    do
+    {
+        switch (tecla)
+        {
+        case TECLA_IZQUIERDA: LimpiarPantalla(); MostrarTutorial1(); break;
+        case TECLA_DERECHA: LimpiarPantalla(); MostrarTutorial2(); break;
+        default: break;
+        }
+
+        tecla = getch();
+
+        if (tecla == 27) break;
+    } while (true);
 }
 
 void DibujarBarraVidas(int v) 

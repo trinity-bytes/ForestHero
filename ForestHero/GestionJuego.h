@@ -229,7 +229,7 @@ void GestionJuego::IniciarJuego()
 				{
 					DispararSemillas(guardian->getX(), guardian->getY());
 
-					guardian->setCantSemillas(guardian->getCantSemillas() - 4);
+					guardian->setCantSemillas(guardian->getCantSemillas() - 1);
 				}
 			}
 			else if (tecla == 'P' || tecla == 'p') /// Pausar juego
@@ -311,6 +311,10 @@ void GestionJuego::IniciarJuego()
 				setFont(L"Cascadia Mono Semibold", 28, 38);
 				Console::SetWindowSize(47, 19);
 				ReiniciarEstado();
+
+				LimpiarPantalla();
+				MostrarUIJuego();
+				RepNivelNormal();
 			}
 			else break;
 		}
@@ -471,22 +475,33 @@ void GestionJuego::RevisarColisiones()
 		}
 	}
 
-	/// Eliminamos los elementos con los indices almacenados
-	for (auto i = indicesSemillasEliminar.rbegin(); i != indicesSemillasEliminar.rend(); ++i)
-	{
-		semillas.erase(semillas.begin() + *i);
+	/// Eliminamos los elementos con los índices almacenados (procesar en orden inverso)
+	for (auto it = indicesSemillasEliminar.rbegin(); it != indicesSemillasEliminar.rend(); ++it) {
+		if (*it >= 0 && *it < semillas.size()) {  // Validar el índice
+			delete semillas[*it];  // Liberar memoria si es un puntero
+			semillas.erase(semillas.begin() + *it);
+		}
 	}
-	for (auto i = indicesEnemigosEliminar.rbegin(); i != indicesEnemigosEliminar.rend(); ++i)
-	{
-		enemigos.erase(enemigos.begin() + *i);
+
+	for (auto it = indicesEnemigosEliminar.rbegin(); it != indicesEnemigosEliminar.rend(); ++it) {
+		if (*it >= 0 && *it < enemigos.size()) {  // Validar el índice
+			delete enemigos[*it];  // Liberar memoria si es un puntero
+			enemigos.erase(enemigos.begin() + *it);
+		}
 	}
-	for (int i = indicesBasuraEliminar.size() - 1; i >= 0; i--)
-	{
-		basuras.erase(basuras.begin() + indicesBasuraEliminar[i]);
+
+	for (auto it = indicesBasuraEliminar.rbegin(); it != indicesBasuraEliminar.rend(); ++it) {
+		if (*it >= 0 && *it < basuras.size()) {  // Validar el índice
+			delete basuras[*it];  // Liberar memoria si es un puntero
+			basuras.erase(basuras.begin() + *it);
+		}
 	}
-	for (int i = indicesAguaEliminar.size() - 1; i >= 0; i--)
-	{
-		aguas.erase(aguas.begin() + indicesAguaEliminar[i]);
+
+	for (auto it = indicesAguaEliminar.rbegin(); it != indicesAguaEliminar.rend(); ++it) {
+		if (*it >= 0 && *it < aguas.size()) {  // Validar el índice
+			delete aguas[*it];  // Liberar memoria si es un puntero
+			aguas.erase(aguas.begin() + *it);
+		}
 	}
 }
 

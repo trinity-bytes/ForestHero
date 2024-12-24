@@ -69,11 +69,11 @@ void Ranking()
 
 void Tutorial()
 {
-	LimpiarPantalla();
 	RepSeleccionMenuSecundario();
+	LimpiarPantalla();
 	RepMenuSecundario();
 
-	system("pause>0");
+	MostrarUITutorial();
 }
 
 void Salir()
