@@ -298,7 +298,7 @@ void MostrarTutorial2()
  ║                                                     ║                                              ║
  ║   - Cada vez que plantas un arbol se consume        ║   - La cantidad de enemigos INCREMENTA con   ║
  ║     una unidad de semilla y de agua.                ║     el transcurso del tiempo.                ║
- ║   - Cada vez que disparas se consumen 4 semillas.   ║   - Si tocas a un ENEMIGO o a la BASURA,     ║
+ ║   - Cada vez que disparas se consume 1 semilla.     ║   - Si tocas a un ENEMIGO o a la BASURA,     ║
  ║   - Las semillas disparadas pueden destruir         ║     perderas una vida.                       ║
  ║     la basura y eliminar enemigos.                  ║   - Si te quedas sin vidas, PIERDES la       ║
  ║                                                     ║     partida.                                 ║

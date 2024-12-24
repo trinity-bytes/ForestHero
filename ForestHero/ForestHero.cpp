@@ -43,6 +43,18 @@ void main()
 void SecuenciaDeInicio()
 {
 	ConfigurarConsola();
+
+	PresentacionSkibidiDevs();
+	RepSkibididevs();
+	LimpiarPantalla();
+
+	Console::CursorVisible = true;
+	PresentacionForestHero();
+	RepIntroPressStart();
+	system("pause>0");
+	Console::CursorVisible = false;
+	RepIniciandoMenu();
+	LimpiarPantalla();
 }
 
 void Jugar()
