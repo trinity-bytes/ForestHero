@@ -155,7 +155,7 @@ void GestionJuego::IniciarJuego()
 			segundosBasura += tiempoBasura;
 			tsBasura = t + CLOCKS_PER_SEC * tiempoBasura;
 
-			AgregarBasura();
+			if (enemigos.size() > 0) AgregarBasura(); //Verificamos que hayan eneigos que puedan generar basura
 		}
 
 		if (kbhit())
@@ -225,7 +225,7 @@ void GestionJuego::IniciarJuego()
 			}
 			else if (tecla == 'K' || tecla == 'k') /// disparar semilla
 			{
-				if (guardian->getCantSemillas() >= 4)
+				if (guardian->getCantSemillas() >= 1)
 				{
 					DispararSemillas(guardian->getX(), guardian->getY());
 
@@ -485,6 +485,7 @@ void GestionJuego::RevisarColisiones()
 
 	for (auto it = indicesEnemigosEliminar.rbegin(); it != indicesEnemigosEliminar.rend(); ++it) {
 		if (*it >= 0 && *it < enemigos.size()) {  // Validar el índice
+			enemigos[*it]->Borrar();  // Borrar visualmente antes de eliminar
 			delete enemigos[*it];  // Liberar memoria si es un puntero
 			enemigos.erase(enemigos.begin() + *it);
 		}
@@ -492,6 +493,7 @@ void GestionJuego::RevisarColisiones()
 
 	for (auto it = indicesBasuraEliminar.rbegin(); it != indicesBasuraEliminar.rend(); ++it) {
 		if (*it >= 0 && *it < basuras.size()) {  // Validar el índice
+			basuras[*it]->Borrar();
 			delete basuras[*it];  // Liberar memoria si es un puntero
 			basuras.erase(basuras.begin() + *it);
 		}

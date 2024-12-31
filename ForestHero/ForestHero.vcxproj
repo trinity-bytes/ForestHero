@@ -136,9 +136,6 @@
   <ItemGroup>
     <ResourceCompile Include="ForestHero.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\jahat\Downloads\Raccoon-Flat-icon.png" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
