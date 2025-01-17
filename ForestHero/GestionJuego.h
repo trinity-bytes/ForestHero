@@ -165,7 +165,7 @@ void GestionJuego::IniciarJuego()
 			if (enemigos.size() > 0) AgregarBasura(); //Verificamos que hayan eneigos que puedan generar basura
 		}
 
-		if ((t + clock()) >= tsPowerUp) // Invocar al powerUp cada X tiempo
+		if ((t = clock()) >= tsPowerUp) // Invocar al powerUp cada X tiempo
 		{
 			segundosPowerUp += tiempoPowerUp;
 			tsPowerUp = t + CLOCKS_PER_SEC * tiempoPowerUp;
@@ -791,7 +791,7 @@ void GestionJuego::InvocarPowerUp()
 	cy = GenerarNumeroAleatorio(3, 17);
 
 	powerUp->setX(cx);
-	powerUp->setY(cx);
+	powerUp->setY(cy);
 
 	powerUp->setVisible(true);
 }
