@@ -12,6 +12,8 @@ public:
 
 	int getX();
 	int getY();
+	void setX(int);
+	void setY(int);
 	void setForma(string f);
 
 	virtual void Dibujar();
@@ -29,6 +31,9 @@ Entidad::~Entidad() {}
 
 int Entidad::getX() { return this->x; }
 int Entidad::getY() { return this->y; }
+
+void Entidad::setX(int x) { this->x = x; }
+void Entidad::setY(int y) { this->y = y; }
 
 void Entidad::setForma(string f) { this->forma = f; }
 

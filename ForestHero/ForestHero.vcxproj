@@ -123,6 +123,7 @@
     <ClInclude Include="Guardian.h" />
     <ClInclude Include="Musica.h" />
     <ClInclude Include="GestionPuntajes.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Semilla.h" />
     <ClInclude Include="UI Ascii.h" />

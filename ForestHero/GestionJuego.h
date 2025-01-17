@@ -3,6 +3,7 @@
 #include "UI Ascii.h"
 #include "Musica.h"
 #include "Guardian.h"
+#include "PowerUp.h"
 #include "Enemigo.h"
 #include "Agua.h"
 #include "Semilla.h"
@@ -15,6 +16,7 @@ class GestionJuego
 {
 private:
 	Guardian* guardian;
+	PowerUp* powerUp;
 
 	vector<Agua*> aguas;
 	vector<Semilla*> semillas;
@@ -27,7 +29,7 @@ private:
 
 	const int tiempoAgua = 3;
 	const int tiempoSemilla = 2;
-	const int tiempoEnemigos = 30;
+	const int tiempoEnemigos = 25;
 
 	int tiempoBasura = 7; // Su valor cambia en la parte final del nivel
 	int opcReiniciarJuego = 0;
@@ -71,6 +73,7 @@ public:
 	void DispararSemillas(int, int);
 	void AgregarArbol(int, int);
 	void AgregarBasura();
+	void InvocarPowerUp();
 	double PorcentajeReforestacion();
 	bool AnalizarGameOver();
 	bool DeterminarVictoria();
@@ -87,6 +90,7 @@ GestionJuego::GestionJuego()
 	enemigos = vector<Enemigo*>();
 
 	guardian = new Guardian(10, 8);
+	powerUp = new PowerUp(0, 0);
 
 	IniciarElementos();
 }
@@ -630,6 +634,16 @@ void GestionJuego::DibujarTodo()
 			setBkgTxtColor(1, 0);
 		}
 	}
+
+	// Dibujar PowerUp
+	if (powerUp->getVisible() == true)
+	{
+		cx = GenerarNumeroAleatorio(1, 14);
+
+		setBkgTxtColor(0, cx);
+		powerUp->Dibujar();
+		setBkgTxtColor(1, 0);
+	}
 }
 
 void GestionJuego::IniciarElementos()
@@ -732,6 +746,17 @@ void GestionJuego::AgregarBasura()
 		Basura* b = new Basura(cx, cy);
 		basuras.push_back(b);
 	}
+}
+
+void GestionJuego::InvocarPowerUp()
+{
+	cx = GenerarNumeroAleatorio(2, 20);
+	cy = GenerarNumeroAleatorio(3, 17);
+
+	powerUp->setX(cx);
+	powerUp->setY(cx);
+
+	powerUp->setVisible(true);
 }
 
 double GestionJuego::PorcentajeReforestacion()
