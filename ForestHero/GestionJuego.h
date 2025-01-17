@@ -24,15 +24,17 @@ private:
 	vector<Basura*> basuras;
 	vector<Enemigo*> enemigos;
 
-	clock_t t, tsAgua, tsSemilla, tsEnemigos, tsBasura;
-	int segundosAgua = 0, segundosSemilla = 0, segundosEnemigos = 0, segundosBasura = 0;
+	clock_t t, tsAgua, tsSemilla, tsEnemigos, tsBasura, tsPowerUp;
+	int segundosAgua = 0, segundosSemilla = 0, segundosEnemigos = 0, segundosBasura = 0, segundosPowerUp = 0;
 
 	const int tiempoAgua = 3;
 	const int tiempoSemilla = 2;
 	const int tiempoEnemigos = 25;
+	const int tiempoPowerUp = 15;
 
 	int tiempoBasura = 7; // Su valor cambia en la parte final del nivel
 	int opcReiniciarJuego = 0;
+	int pseudoTimer = 0;
 
 	const int puntosRecogerSemilla = 1;
 	const int puntosRecogerAgua = 2;
@@ -52,6 +54,7 @@ private:
 	bool continuar = true;
 	bool victoria = false;
 	bool musicaFinal = false;
+	bool guardianInmune = false;
 
 	string nick;
 
@@ -162,6 +165,17 @@ void GestionJuego::IniciarJuego()
 			if (enemigos.size() > 0) AgregarBasura(); //Verificamos que hayan eneigos que puedan generar basura
 		}
 
+		if ((t + clock()) >= tsPowerUp) // Invocar al powerUp cada X tiempo
+		{
+			segundosPowerUp += tiempoPowerUp;
+			tsPowerUp = t + CLOCKS_PER_SEC * tiempoPowerUp;
+
+			if (guardianInmune == false)
+			{
+				InvocarPowerUp();
+			}
+		}
+
 		if (kbhit())
 		{
 			char tecla = getch();
@@ -250,6 +264,18 @@ void GestionJuego::IniciarJuego()
 		}
 		guardian->Dibujar();
 
+		/// Modo DIOS
+		if (pseudoTimer > 1)
+		{
+			DispararSemillas(guardian->getX(), guardian->getY());
+			pseudoTimer--;
+		}
+		else if (pseudoTimer == 1)
+		{
+			guardianInmune = false;
+			pseudoTimer = 0;
+		}
+
 	/// Dibujar ESTADISTICAS - NUMEROS
 		// ---- Borrar estadisticas anteriores
 		GoTo(9, 1);   cout << "   ";
@@ -335,8 +361,19 @@ void GestionJuego::RevisarColisiones()
 	vector<int> indicesBasuraEliminar;
 
 	//Colisiones guardian
-	if (true) // Comprobando que el guardian no sea inmune
+	if (guardianInmune == false) // Comprobando que el guardian no sea inmune
 	{
+		/// Guardian - PowerUp
+		if (powerUp->getVisible() == true)
+		{
+			if (guardian->getRectangle().IntersectsWith(powerUp->getRectangle()))
+			{
+				pseudoTimer = 20;
+				guardianInmune = true;
+				powerUp->setVisible(false);
+			}
+		}
+
 		/// Guardian - Semilla
 		for (int i = 0; i < semillas.size(); i++)
 		{
@@ -488,24 +525,24 @@ void GestionJuego::RevisarColisiones()
 	}
 
 	for (auto it = indicesEnemigosEliminar.rbegin(); it != indicesEnemigosEliminar.rend(); ++it) {
-		if (*it >= 0 && *it < enemigos.size()) {  // Validar el índice
+		if (*it >= 0 && *it < enemigos.size()) { 
 			enemigos[*it]->Borrar();  // Borrar visualmente antes de eliminar
-			delete enemigos[*it];  // Liberar memoria si es un puntero
+			delete enemigos[*it];  
 			enemigos.erase(enemigos.begin() + *it);
 		}
 	}
 
 	for (auto it = indicesBasuraEliminar.rbegin(); it != indicesBasuraEliminar.rend(); ++it) {
-		if (*it >= 0 && *it < basuras.size()) {  // Validar el índice
+		if (*it >= 0 && *it < basuras.size()) {  
 			basuras[*it]->Borrar();
-			delete basuras[*it];  // Liberar memoria si es un puntero
+			delete basuras[*it]; 
 			basuras.erase(basuras.begin() + *it);
 		}
 	}
 
 	for (auto it = indicesAguaEliminar.rbegin(); it != indicesAguaEliminar.rend(); ++it) {
-		if (*it >= 0 && *it < aguas.size()) {  // Validar el índice
-			delete aguas[*it];  // Liberar memoria si es un puntero
+		if (*it >= 0 && *it < aguas.size()) {  
+			delete aguas[*it];  
 			aguas.erase(aguas.begin() + *it);
 		}
 	}
