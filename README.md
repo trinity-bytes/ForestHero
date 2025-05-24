@@ -42,4 +42,4 @@ Como el **Guardián del Bosque (@)**, tu misión es combatir la contaminación (
 
 ## 📸 Capturas de Pantalla (Marcador de posición)
 
-*Ptronto*
+*Pronto*
