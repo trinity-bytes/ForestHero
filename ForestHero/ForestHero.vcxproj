@@ -111,31 +111,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Agente.h" />
-    <ClInclude Include="Agua.h" />
-    <ClInclude Include="Arbol.h" />
-    <ClInclude Include="Ascii Art.h" />
-    <ClInclude Include="Basura.h" />
-    <ClInclude Include="Enemigo.h" />
-    <ClInclude Include="Entidad.h" />
-    <ClInclude Include="FuncionesExtra.h" />
+    <ClInclude Include="Entidades\Base\Agente.h" />
+    <ClInclude Include="Entidades\Base\Entidad.h" />
+    <ClInclude Include="Entidades\Factorias\FabricaEntidad.h" />
+    <ClInclude Include="Entidades\Items\Agua.h" />
+    <ClInclude Include="Entidades\Items\Arbol.h" />
+    <ClInclude Include="Entidades\Items\Basura.h" />
+    <ClInclude Include="Entidades\Items\Potenciador.h" />
+    <ClInclude Include="Entidades\Items\Semilla.h" />
+    <ClInclude Include="Entidades\Personajes\Enemigo.h" />
+    <ClInclude Include="Entidades\Personajes\Guardian.h" />
+    <ClInclude Include="Entidades\Pools\PoolSemillas.h" />
+    <ClInclude Include="Estados\EstadoJuego.h" />
     <ClInclude Include="GestionJuego.h" />
-    <ClInclude Include="Guardian.h" />
-    <ClInclude Include="Musica.h" />
-    <ClInclude Include="GestionPuntajes.h" />
-    <ClInclude Include="PowerUp.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Semilla.h" />
-    <ClInclude Include="UI Ascii.h" />
+    <ClInclude Include="PiscinaObjetos.h" />
+    <ClInclude Include="Renderizado\BufferPantalla.h" />
+    <ClInclude Include="Sistemas\GridColisiones.h" />
+    <ClInclude Include="Sistemas\SistemaEventos.h" />
+    <ClInclude Include="Utilidades\Ascii Art.h" />
+    <ClInclude Include="Utilidades\FuncionesExtra.h" />
+    <ClInclude Include="Utilidades\GestionPuntajes.h" />
+    <ClInclude Include="Utilidades\Musica.h" />
+    <ClInclude Include="Utilidades\UI Ascii.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestHero.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ForestHero.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

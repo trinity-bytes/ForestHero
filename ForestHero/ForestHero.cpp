@@ -1,5 +1,5 @@
 #include "GestionJuego.h"
-#include "Ascii Art.h"
+#include "Utilidades/Ascii Art.h"
 
 using namespace std;
 using namespace System;

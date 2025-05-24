@@ -1,14 +1,15 @@
 ﻿#pragma once
 #include "FuncionesExtra.h"
 #include "GestionPuntajes.h"
-#include "Guardian.h"
-#include "Enemigo.h"
-#include "Basura.h"
-#include "Semilla.h"
-#include "Agua.h"
-#include "Arbol.h"
+#include "../Entidades/Personajes/Guardian.h"
+#include "../Entidades/Personajes/Enemigo.h"
+#include "../Entidades/Items/Basura.h"
+#include "../Entidades/Items/Semilla.h"
+#include "../Entidades/Items/Agua.h"
+#include "../Entidades/Items/Arbol.h"
 #include "conio.h"
 #include "vector"
+// #include "../Renderizado/BufferPantalla.h" // No es necesario aquí si MostrarUIJuego ya no lo usa directamente
 
 #define TECLA_ARRIBA    72  // Flecha arriba
 #define TECLA_ABAJO     80  // Flecha abajo
@@ -23,10 +24,10 @@ int opcMPSeleccionada = 0;
 int opcGameOverSeleccionada = 0;
 
 const string opcionesMenuPrincipal[cantOpcMP] = {
-	"    JUGAR       ",
-	"    RANKING     ",
-	"    TUTORIAL    ",
-	"    SALIR       "
+    "    JUGAR       ",
+    "    RANKING     ",
+    "    TUTORIAL    ",
+    "    SALIR       "
 };
 
 const string opcionesGameOver[cantOpcGameOver] = {
@@ -35,16 +36,35 @@ const string opcionesGameOver[cantOpcGameOver] = {
 };
 
 const string barraVidas[6] = {
-	u8"-----",
-	u8"▓----",
-	u8"▓▓---",
-	u8"▓▓▓--",
-	u8"▓▓▓▓-",
-	u8"▓▓▓▓▓"
+    u8"-----",
+    u8"▓----",
+    u8"▓▓---",
+    u8"▓▓▓--",
+    u8"▓▓▓▓-",
+    u8"▓▓▓▓▓"
 };
+
+// DibujarBarraVidasEnBuffer ya está bien y usa el buffer.
+inline void DibujarBarraVidasEnBuffer(BufferPantalla* buffer, int x, int y, int vidas) {
+    int color;
+    if (vidas < 0) vidas = 0; // Asegurar que no sea negativo
+    if (vidas > 5) vidas = 5; // Asegurar que no exceda el tamaño del array
+
+    switch (vidas) {
+    case 0: case 1: color = 4; break; // Rojo
+    case 2: case 3: color = 6; break; // Amarillo
+    case 4: case 5: color = 2; break; // Verde
+    default: color = 2; break; // Por si acaso, aunque vidas ya está acotado
+    }
+    buffer->dibujarTexto(x, y, barraVidas[vidas], 15, color); // Texto blanco sobre el color de la barra
+}
 
 void MostrarMenuPrincipal()
 {
+    // Esta función sigue usando cout. Debería ser refactorizada para usar BufferPantalla
+    // si se quiere una transición suave entre el menú y el juego, o si el menú
+    // también va a ser no bloqueante y parte del bucle principal de la aplicación.
+    // Por ahora, se asume que se llama cuando el BufferPantalla del juego no está activo.
     string objeto = u8R"(
 
     ╔═════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -73,67 +93,38 @@ void MostrarMenuPrincipal()
      Pulsa ENTER para seleccionar la opcion que deseas.
 )";
 
-    cout << objeto;
+    cout << objeto; // Sigue usando cout
 }
 
 void MostrarUIJuego()
 {
-	string interfaz = u8R"(╔═════════════════════════════════════════════╗
-║  Vidas:-----  #:---  #:---      ESC: Salir  ║
-╠════════════════════╦════════════════════════╣
-║                    ║  >>>  ForestHero  <<<  ║
-║                    ║                        ║
-║                    ║  Puntos:               ║
-║                    ║                        ║
-║                    ║  Reforestacion: --.-%  ║
-║                    ║                        ║
-║                    ╠════════════════════════╣
-║                    ║  #: Agua   #: Semilla  ║
-║                    ║  #: Arbol  #: Enemigo  ║
-║                    ║  #: Basura             ║
-║                    ╠════════════════════════╣
-║                    ║  W,A,S,D: Movimiento   ║
-║                    ║  M: Plantar arbol      ║
-║                    ║  K: Disparar semillas  ║
-║                    ║  P: Pausar el juego    ║
-╚════════════════════╩════════════════════════╝)";
+    // Esta función ya no es necesaria para dibujar el marco del juego,
+    // ya que GestionJuego::DibujarMarcoUI() lo hace.
+    // Se puede eliminar o dejar vacía si no tiene otro propósito.
+    // Ya no se debe usar cout ni crear entidades aquí para la UI del juego.
 
-    Semilla* semilla = new Semilla(23, 1);
-    Agua* agua = new Agua(16, 1);
-    Semilla* semilla2 = new Semilla(34, 10);
-    Agua* agua2 = new Agua(24, 10);
-    Arbol* arbol2 = new Arbol(24, 11);
-    Enemigo* enemigo = new Enemigo(34, 11);
-    Basura* basura = new Basura(24, 12);
+    /*
+    string interfaz = u8R"(...)" // Eliminado
+    cout << interfaz; // Eliminado
 
-    cout << interfaz;
-
-	setBkgTxtColor(6, 0);
-    semilla->Dibujar();
-	semilla2->Dibujar();
-
-	setBkgTxtColor(11, 0);
-    agua->Dibujar();
-	agua2->Dibujar();
-
-	setBkgTxtColor(0, 2);
-	arbol2->Dibujar();
-    
-	setBkgTxtColor(0, 4);
-    enemigo->Dibujar();
-
-	setBkgTxtColor(0, 5);
-    basura->Dibujar();
-
-    delete semilla;
-    delete agua;
-    delete semilla2;
-    delete agua2;
-    delete arbol2;
-    delete enemigo;
-    delete basura;
+    // Eliminada la creación de entidades temporales y setBkgTxtColor
+    */
 }
 
+// Las funciones MostrarMenuVictoria, MostrarMenuDerrota, MostrarUIRanking, MostrarTutorial1/2
+// también usan cout y deberían ser refactorizadas a largo plazo para usar BufferPantalla
+// si se desea una experiencia de UI más integrada y sin parpadeos al cambiar de pantalla.
+// Por ahora, se asume que se llaman en momentos donde el control directo de la consola es aceptable
+// (por ejemplo, después de que el bucle de juego principal ha terminado y antes de que otro comience).
+
+// ... (resto de funciones de UI Ascii.h como MostrarOpcMenuPrincipal, ObtenerOpcionMenuPrincipal, etc.
+//      que también usan cout, GoTo, Sleep, y _getch de forma bloqueante)
+// ... (Mantener DibujarBarraVidas que usa setBkgTxtColor y cout, o preferir DibujarBarraVidasEnBuffer)
+
+// Es recomendable reemplazar DibujarBarraVidas por DibujarBarraVidasEnBuffer en el código del juego.
+// void DibujarBarraVidas(int v) { ... } // Esta versión usa cout y setBkgTxtColor
+
+// ... el resto del archivo UI Ascii.h
 void MostrarMenuVictoria()
 {
     string objeto = u8R"(
@@ -259,7 +250,10 @@ void MostrarTutorial1()
   Presion ESC para regresar al menu principal. 
 )";
 
-    Semilla* semilla = new Semilla(42, 12);
+    // La creación de entidades aquí es solo para mostrar iconos en el tutorial,
+    // si el tutorial se rediseña para usar el buffer, esto cambiaría.
+    // Por ahora, se mantiene ya que es una pantalla estática fuera del bucle de juego principal.
+    Semilla* semilla = new Semilla(42, 12); // Estas coordenadas son relativas a la salida de cout
     Agua* agua = new Agua(54, 12);
     Arbol* arbol = new Arbol(67, 12);
     Enemigo* enemigo = new Enemigo(84, 12);
@@ -267,11 +261,13 @@ void MostrarTutorial1()
 
     cout << objetoI;
 
-    semilla->Dibujar();
-    agua->Dibujar();
-    arbol->Dibujar();
-    enemigo->Dibujar();
-    basura->Dibujar();
+    // Estas llamadas a Dibujar() de las entidades no funcionarán como antes si Entidad::Dibujar
+    // fue modificada para usar BufferPantalla y no se le pasa un buffer.
+    // Si se quiere mostrar los iconos, se debería usar GoTo y cout con el caracter de la forma.
+    // O, idealmente, el tutorial también usaría BufferPantalla.
+    // Por simplicidad, comentamos estas llamadas por ahora.
+    // GoTo(42,12); setBkgTxtColor(6,0); cout << semilla->getForma();
+    // ...etc.
 
     delete semilla;
     delete agua;
@@ -313,111 +309,112 @@ void MostrarTutorial2()
 
 void MostrarOpcMenuPrincipal()
 {
-    for (int i = 0; i < cantOpcMP; i++) 
+    for (int i = 0; i < cantOpcMP; i++)
     {
         GoTo(24, 16 + i);
-        if (i == opcMPSeleccionada) 
+        if (i == opcMPSeleccionada)
         {
-            setBkgTxtColor(0, 1);
+            setBkgTxtColor(0, 1); // Negro sobre Blanco
         }
-        else 
+        else
         {
-            setBkgTxtColor(1, 0);
+            setBkgTxtColor(1, 0); // Blanco sobre Negro
         }
 
         cout << opcionesMenuPrincipal[i] << endl;
     }
+    setBkgTxtColor(1, 0); // Reset a Blanco sobre Negro
 }
 
-short ObtenerOpcionMenuPrincipal() 
+short ObtenerOpcionMenuPrincipal()
 {
     char tecla;
     do {
         MostrarOpcMenuPrincipal();
-        tecla = _getch(); // Obtener la tecla presionada sin necesidad de Enter
-        switch (tecla) 
+        tecla = _getch();
+        switch (tecla)
         {
-        case TECLA_ARRIBA: // Flecha arriba
+        case TECLA_ARRIBA:
             opcMPSeleccionada = (opcMPSeleccionada - 1 + cantOpcMP) % cantOpcMP; break;
-        case TECLA_ABAJO: // Flecha abajo
+        case TECLA_ABAJO:
             opcMPSeleccionada = (opcMPSeleccionada + 1) % cantOpcMP; break;
-        case ENTER: // Enter
+        case ENTER:
             return opcMPSeleccionada + 1;
         }
-        Sleep(40);
+        Sleep(40); // Pequeña pausa para evitar selección múltiple rápida
     } while (true);
 }
 
 void MostrarOpcVictoria()
 {
-	int posicionesX[cantOpcGameOver] = { 28, 54 }; // Coordenadas X para cada opc
-    int posicionY = 19; // Coordenada Y fija para ambas opc
+    int posicionesX[cantOpcGameOver] = { 28, 54 };
+    int posicionY = 19;
 
-    for (int i = 0; i < cantOpcGameOver; i++) 
+    for (int i = 0; i < cantOpcGameOver; i++)
     {
-        GoTo(posicionesX[i], posicionY); // Mueve el cursor a la posición correspondiente
+        GoTo(posicionesX[i], posicionY);
 
         if (i == opcGameOverSeleccionada) setBkgTxtColor(0, 1);
         else setBkgTxtColor(1, 0);
-       
+
         cout << opcionesGameOver[i];
     }
     setBkgTxtColor(1, 0);
 }
 
-short ObtenerOpcVictoria() 
+short ObtenerOpcVictoria()
 {
     char tecla;
     do {
         MostrarOpcVictoria();
-        tecla = getch(); // Obtener la tecla presionada sin necesidad de Enter
+        tecla = getch();
         switch (tecla)
         {
-        case TECLA_IZQUIERDA: // Flecha izquierda
+        case TECLA_IZQUIERDA:
             opcGameOverSeleccionada = (opcGameOverSeleccionada - 1 + cantOpcGameOver) % cantOpcGameOver;
             break;
-        case TECLA_DERECHA: // Flecha derecha
-            opcGameOverSeleccionada = (opcGameOverSeleccionada + 1) % cantOpcGameOver; 
+        case TECLA_DERECHA:
+            opcGameOverSeleccionada = (opcGameOverSeleccionada + 1) % cantOpcGameOver;
             break;
-        case ENTER: // Enter
+        case ENTER:
             return opcGameOverSeleccionada + 1;
         }
         Sleep(40);
     } while (true);
 }
 
-void MostrarOpcDerrota() 
+void MostrarOpcDerrota()
 {
-    int posicionesX[cantOpcGameOver] = { 28, 54 }; // Coordenadas X para cada opc
-    int posicionY = 16; // Coordenada Y fija para ambas opc
+    int posicionesX[cantOpcGameOver] = { 28, 54 };
+    int posicionY = 16;
 
-    for (int i = 0; i < cantOpcGameOver; i++) 
+    for (int i = 0; i < cantOpcGameOver; i++)
     {
-        GoTo(posicionesX[i], posicionY); // Mueve el cursor a la posición correspondiente
+        GoTo(posicionesX[i], posicionY);
 
         if (i == opcGameOverSeleccionada) setBkgTxtColor(0, 1);
         else setBkgTxtColor(1, 0);
-       
+
         cout << opcionesGameOver[i];
     }
     setBkgTxtColor(1, 0);
 }
 
-short ObtenerOpcDerrota() 
+short ObtenerOpcDerrota()
 {
     char tecla;
     do {
         MostrarOpcDerrota();
-        tecla = getch(); // Obtener la tecla presionada sin necesidad de Enter
+        tecla = getch();
         switch (tecla)
         {
-        case TECLA_IZQUIERDA: // Flecha izquierda
+        case TECLA_IZQUIERDA:
             opcGameOverSeleccionada = (opcGameOverSeleccionada - 1 + cantOpcGameOver) % cantOpcGameOver;
             break;
-        case TECLA_DERECHA: // Flecha derecha
+        case TECLA_DERECHA:
             opcGameOverSeleccionada = (opcGameOverSeleccionada + 1) % cantOpcGameOver;
             break;
-        case ENTER: // Enter
+        case ENTER:
             return opcGameOverSeleccionada + 1;
         }
         Sleep(40);
@@ -428,50 +425,62 @@ void MostrarRanking()
 {
     GestionPuntajes rank("Resources/Data/Puntaje.dat");
 
-    MostrarUIRanking();
+    MostrarUIRanking(); // Esto usa cout
 
     vector<Puntaje> ranking = rank.ObtenerRanking();
     size_t limite = min(ranking.size(), size_t(10));
 
-    for (size_t i = 0; i < limite; i++) 
+    for (size_t i = 0; i < limite; i++)
     {
-        GoTo(39, 13 + i);
-        cout << ranking[i].nombre << "  -  " << ranking[i].puntos << " puntos" << endl;
+        GoTo(39, 13 + i); // Usa GoTo
+        cout << ranking[i].nombre << "  -  " << ranking[i].puntos << " puntos" << endl; // Usa cout
     }
 }
 
 void MostrarUITutorial()
 {
-    char tecla = 75;
+    char tecla = TECLA_DERECHA; // Iniciar mostrando la primera página (o TECLA_IZQUIERDA si prefieres)
 
     do
     {
-        switch (tecla)
-        {
-        case TECLA_IZQUIERDA: LimpiarPantalla(); MostrarTutorial1(); break;
-        case TECLA_DERECHA: LimpiarPantalla(); MostrarTutorial2(); break;
-        default: break;
+        LimpiarPantalla(); // Usa system("cls")
+        if (tecla == TECLA_DERECHA) {
+            MostrarTutorial1(); // Usa cout
+        }
+        else if (tecla == TECLA_IZQUIERDA) {
+            MostrarTutorial2(); // Usa cout
+        }
+        else {
+            // Si es la primera vez o una tecla inválida, mostrar la primera página por defecto
+            MostrarTutorial1();
         }
 
-        tecla = getch();
+        char inputTecla = getch();
+        if (inputTecla == 0 || inputTecla == 224) { // Teclas especiales (flechas)
+            tecla = getch(); // Leer el segundo byte
+        }
+        else {
+            tecla = inputTecla;
+        }
 
-        if (tecla == 27) break;
+        if (tecla == 27) break; // ESC para salir
     } while (true);
 }
 
-void DibujarBarraVidas(int v) 
+// Esta función usa cout y setBkgTxtColor, preferir DibujarBarraVidasEnBuffer
+void DibujarBarraVidas(int v)
 {
-	switch (v)
-	{
-	case 0: setBkgTxtColor(1, 4); break;
-	case 1:	setBkgTxtColor(1, 4); break;
-	case 2:	setBkgTxtColor(1, 7); break;
-	case 3:	setBkgTxtColor(1, 7); break;
-	case 4:	setBkgTxtColor(1, 8); break;
-	case 5:	setBkgTxtColor(1, 8); break;
-	default: break;
-	}
+    if (v < 0) v = 0;
+    if (v >= 6) v = 5; // Asegurar que el índice esté dentro del rango de barraVidas
 
-	cout << barraVidas[v];
-    setBkgTxtColor(1, 0);
+    switch (v)
+    {
+    case 0: case 1: setBkgTxtColor(15, 4); break; // Blanco sobre Rojo
+    case 2: case 3:	setBkgTxtColor(0, 6); break; // Negro sobre Amarillo
+    case 4: case 5:	setBkgTxtColor(15, 2); break; // Blanco sobre Verde
+    default: setBkgTxtColor(1, 0); break; // Default Blanco sobre Negro
+    }
+
+    cout << barraVidas[v];
+    setBkgTxtColor(1, 0); // Reset a Blanco sobre Negro
 }

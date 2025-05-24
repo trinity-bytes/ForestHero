@@ -1,8 +1,10 @@
-#pragma once
-#pragma once
+ï»¿#pragma once
 #include "windows.h" // acceder a la api de windows
 #include "iostream"
 #include "random"
+#include <string>      // Required for std::string, std::wstring
+#include <locale>      // Required for std::wstring_convert
+#include <codecvt>     // Required for std::codecvt_utf8_utf16
 
 using namespace std;
 using namespace System;
@@ -32,7 +34,20 @@ constexpr Color LAVANDA = { 183, 189, 248 };
 constexpr Color FLAMENCO = { 145, 215, 227 };
 constexpr Color OSCURIDAD = { 24, 25, 38 };
 
-int GenerarNumeroAleatorio(int m, int n) 
+// Helper function to convert UTF-8 std::string to std::wstring
+inline std::wstring ConvertUtf8ToWide(const std::string& utf8Str) {
+    try {
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+        return converter.from_bytes(utf8Str);
+    }
+    catch (const std::range_error&) {
+        // Handle cases of invalid UTF-8 sequences if necessary,
+        // though for u8 literals this should not be an issue.
+        return L""; // Or some placeholder like L"?"
+    }
+}
+
+int GenerarNumeroAleatorio(int m, int n)
 {
     // Verificar que m sea menor que n
     if (m >= n) {
@@ -40,19 +55,19 @@ int GenerarNumeroAleatorio(int m, int n)
         return m;  // Retornar m en caso de error
     }
 
-    // Inicializar el generador de números aleatorios
+    // Inicializar el generador de nÃºmeros aleatorios
     static std::mt19937 gen(std::time(0));
 
-    // Crear una distribución uniforme en el rango [m, n]
+    // Crear una distribuciÃ³n uniforme en el rango [m, n]
     std::uniform_int_distribution<> dis(m, n);
 
-    // Generar y retornar el número aleatorio
+    // Generar y retornar el nÃºmero aleatorio
     return dis(gen);
 }
 
-void GoTo(int x, int y) 
+void GoTo(int x, int y)
 {
-    COORD coord = { x, y };
+    COORD coord = { (SHORT)x, (SHORT)y }; // Explicit cast to SHORT
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
@@ -61,12 +76,12 @@ void Esperar(int ms)
     Sleep(ms); // milisegundos
 }
 
-void LimpiarPantalla() 
+void LimpiarPantalla()
 {
     system("cls");
 }
 
-void EsconderCursor() 
+void EsconderCursor()
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
@@ -87,21 +102,24 @@ void MostrarCursor()
 }
 
 
-void setFont(const wchar_t* fontName, SHORT sizeX, SHORT sizeY) 
+// Configurar la fuente y tamano de la letra
+inline void CambiarFuenteConsola(const wstring& nombreFuente, COORD tamanioFuente)
 {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_FONT_INFOEX cfi;
-    cfi.cbSize = sizeof(CONSOLE_FONT_INFOEX);
-    cfi.nFont = 0;
-    cfi.dwFontSize.X = sizeX; // Ancho de cada caracter
-    cfi.dwFontSize.Y = sizeY; // Alto de cada caracter
-    cfi.FontFamily = FF_DONTCARE;
-    cfi.FontWeight = FW_NORMAL;
-    wcscpy_s(cfi.FaceName, fontName);
-    SetCurrentConsoleFontEx(hConsole, FALSE, &cfi);
+    HANDLE hConsola = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    CONSOLE_FONT_INFOEX cfi = { 0 };
+    cfi.cbSize = sizeof(cfi);
+    // Ensure FaceName is null-terminated if nombreFuente is too long.
+    // wcscpy_s is safer. Max length for FaceName is LF_FACESIZE (32).
+    wcsncpy_s(cfi.FaceName, LF_FACESIZE, nombreFuente.c_str(), _TRUNCATE);
+    cfi.dwFontSize = tamanioFuente;
+    cfi.FontWeight = FW_NORMAL; // Consider FW_REGULAR or other weights if needed
+    cfi.FontFamily = FF_DONTCARE; // Or FF_MODERN for monospace
+
+    SetCurrentConsoleFontEx(hConsola, FALSE, &cfi);
 }
 
-void setColorPalette(int index, Color color) 
+void setColorPalette(int index, Color color)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -115,19 +133,19 @@ void setColorPalette(int index, Color color)
     SetConsoleScreenBufferInfoEx(hConsole, &csbiex);
 }
 
-void setBkgTxtColor(int colorTexto, int colorFondo) 
+void setBkgTxtColor(int colorTexto, int colorFondo)
 {
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), colorTexto | (colorFondo << 4));
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), (WORD)((colorFondo << 4) | colorTexto)); // Explicit cast to WORD
 }
 
-void ConfigurarConsola() 
+void ConfigurarConsola()
 {
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
 
     EsconderCursor();
 
-    setFont(L"Cascadia Mono", 10, 20);
+    CambiarFuenteConsola(L"Cascadia Mono", { 0, 20 }); // Default menu font
 
     setColorPalette(0, NEGRO);
     setColorPalette(1, BLANCO);
@@ -146,10 +164,10 @@ void ConfigurarConsola()
     setColorPalette(14, FLAMENCO);
     setColorPalette(15, OSCURIDAD);
 
-    setBkgTxtColor(1, 0);
+    setBkgTxtColor(1, 0); // Default: White text on Black background
 
     Console::Title = "ForestHero v1.5";
-    Console::SetWindowSize(104, 28);
+    Console::SetWindowSize(104, 28); // Default menu size
 }
 
 /*

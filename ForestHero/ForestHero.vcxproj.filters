@@ -13,80 +13,111 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Agentes">
-      <UniqueIdentifier>{778e3fbc-402b-460a-a6ed-82fed5b2737d}</UniqueIdentifier>
+    <Filter Include="Header Files\Nucleo">
+      <UniqueIdentifier>{cc6b92bd-0fa1-4af2-be2d-8cf0dbb04d50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Recursos">
-      <UniqueIdentifier>{1eaf03e8-1201-4816-9e11-3817b0e68e35}</UniqueIdentifier>
+    <Filter Include="Header Files\Entidades">
+      <UniqueIdentifier>{92487d05-c79e-462d-a11a-1d9226f0e183}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Padres">
-      <UniqueIdentifier>{2668420a-768c-4dfa-bb9e-fa9ca5727e6c}</UniqueIdentifier>
+    <Filter Include="Header Files\Entidades\Base">
+      <UniqueIdentifier>{aca6f5d5-93a6-45a7-866c-40a2b3eefd2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Ascii">
-      <UniqueIdentifier>{c6eb6aa2-14ea-4d1e-b1dc-fd88991e44e7}</UniqueIdentifier>
+    <Filter Include="Header Files\Entidades\Items">
+      <UniqueIdentifier>{1bf8b5cc-146a-4101-a40b-c286bac9c7ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Otros">
-      <UniqueIdentifier>{82c58406-dfd4-4b37-8674-d654f4fec25b}</UniqueIdentifier>
+    <Filter Include="Header Files\Entidades\Personajes">
+      <UniqueIdentifier>{b42a0d24-f79a-43b9-899d-ccf306163be2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entidades\Factorias">
+      <UniqueIdentifier>{d153eb3e-c371-419d-9e58-17954547e41d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderizado">
+      <UniqueIdentifier>{f49952f9-461b-46a1-b290-a0d3973af9fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Estados">
+      <UniqueIdentifier>{ca202d2f-4b97-4c1f-a760-0b7c685bb51b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sistemas">
+      <UniqueIdentifier>{2549ed34-98bc-4422-bdbe-8d108c5d5880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilidades">
+      <UniqueIdentifier>{97c499b4-ea6e-467f-893e-0047b21a2ab9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entidades\Pools">
+      <UniqueIdentifier>{6a490215-0d6a-4b5d-9e44-a0ce989d29b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GestionJuego.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Enemigo.h">
-      <Filter>Header Files\Agentes</Filter>
+    <ClInclude Include="Entidades\Base\Agente.h">
+      <Filter>Header Files\Entidades\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Guardian.h">
-      <Filter>Header Files\Agentes</Filter>
+    <ClInclude Include="Entidades\Base\Entidad.h">
+      <Filter>Header Files\Entidades\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Semilla.h">
-      <Filter>Header Files\Agentes</Filter>
+    <ClInclude Include="Entidades\Personajes\Enemigo.h">
+      <Filter>Header Files\Entidades\Personajes</Filter>
     </ClInclude>
-    <ClInclude Include="Agua.h">
-      <Filter>Header Files\Recursos</Filter>
+    <ClInclude Include="Entidades\Personajes\Guardian.h">
+      <Filter>Header Files\Entidades\Personajes</Filter>
     </ClInclude>
-    <ClInclude Include="Arbol.h">
-      <Filter>Header Files\Recursos</Filter>
+    <ClInclude Include="Entidades\Factorias\FabricaEntidad.h">
+      <Filter>Header Files\Entidades\Factorias</Filter>
     </ClInclude>
-    <ClInclude Include="Basura.h">
-      <Filter>Header Files\Recursos</Filter>
+    <ClInclude Include="Entidades\Items\Agua.h">
+      <Filter>Header Files\Entidades\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Agente.h">
-      <Filter>Header Files\Padres</Filter>
+    <ClInclude Include="Entidades\Items\Arbol.h">
+      <Filter>Header Files\Entidades\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Entidad.h">
-      <Filter>Header Files\Padres</Filter>
+    <ClInclude Include="Entidades\Items\Basura.h">
+      <Filter>Header Files\Entidades\Items</Filter>
     </ClInclude>
-    <ClInclude Include="UI Ascii.h">
-      <Filter>Header Files\Ascii</Filter>
+    <ClInclude Include="Entidades\Items\Potenciador.h">
+      <Filter>Header Files\Entidades\Items</Filter>
     </ClInclude>
-    <ClInclude Include="FuncionesExtra.h">
-      <Filter>Header Files\Otros</Filter>
+    <ClInclude Include="Entidades\Items\Semilla.h">
+      <Filter>Header Files\Entidades\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Musica.h">
-      <Filter>Header Files\Otros</Filter>
+    <ClInclude Include="Utilidades\Ascii Art.h">
+      <Filter>Header Files\Utilidades</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Utilidades\FuncionesExtra.h">
+      <Filter>Header Files\Utilidades</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilidades\GestionPuntajes.h">
+      <Filter>Header Files\Utilidades</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilidades\Musica.h">
+      <Filter>Header Files\Utilidades</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilidades\UI Ascii.h">
+      <Filter>Header Files\Utilidades</Filter>
+    </ClInclude>
+    <ClInclude Include="PiscinaObjetos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ascii Art.h">
-      <Filter>Header Files\Ascii</Filter>
+    <ClInclude Include="Renderizado\BufferPantalla.h">
+      <Filter>Header Files\Renderizado</Filter>
     </ClInclude>
-    <ClInclude Include="GestionPuntajes.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Entidades\Pools\PoolSemillas.h">
+      <Filter>Header Files\Entidades\Pools</Filter>
     </ClInclude>
-    <ClInclude Include="PowerUp.h">
-      <Filter>Header Files\Recursos</Filter>
+    <ClInclude Include="Estados\EstadoJuego.h">
+      <Filter>Header Files\Estados</Filter>
+    </ClInclude>
+    <ClInclude Include="Sistemas\GridColisiones.h">
+      <Filter>Header Files\Sistemas</Filter>
+    </ClInclude>
+    <ClInclude Include="Sistemas\SistemaEventos.h">
+      <Filter>Header Files\Sistemas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForestHero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ForestHero.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>
